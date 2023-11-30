@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
     session_start();
     if(isset($_SESSION["user_email"])){
@@ -101,6 +100,3 @@
 
 </body>
 </html>
-=======
-"main"
->>>>>>> 7a6c88a2c9d4a375707fd8c01e11a914c9fb42d4
