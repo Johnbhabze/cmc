@@ -1,0 +1,687 @@
+    /* =============== Globals ============== */
+    * {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    
+    }
+    
+    :root {
+        --blue: #E5EAEB;
+        --white: #fff;
+        --primary: #684640;
+        --secondary: #EAECDF;
+        --background: #ECF2F3;
+        --text: #020303;
+        --nav: #E5EAEB;
+        --accent: #9E6A61;
+    }
+    
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    
+    .container {
+        position: relative;
+        width: 100%;
+    }
+    
+    /* =============== Sidebar Style ================ */
+    .navigation {
+        position: fixed;
+        width: 300px;
+        height: 100vh;
+        background: var(--nav);
+        border-left: 10px solid var(--nav);
+        transition: 0.5s;
+        /* overflow: hidden; */
+        font-family: "Poppins", sans-serif;
+    }
+    
+    .navigation.active {
+        width: 80px;
+    }
+    
+    .navigation ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    
+    
+    .navigation ul li:last-child {
+        margin-top: 450px;
+    }
+    
+    .navigation ul li {
+        position: relative;
+        width: 100%;
+        list-style: none;
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+    }
+    
+    .navigation ul li:hover,
+    .navigation ul li.hovered {
+        background-color: var(--secondary);
+    }
+    
+    .navigation ul li:nth-child(1) {
+        margin-bottom: 20px;
+        pointer-events: none;
+    }
+    
+    .navigation ul li a .logo {
+        margin-left: 10px;
+    }
+    
+    
+    .navigation ul li a {
+        position: relative;
+        display: block;
+        width: 100%;
+        display: flex;
+        text-decoration: none;
+        color: var(--text);
+    }
+    
+    .navigation ul li:hover a,
+    .navigation ul li.hovered a {
+        color: var(--text);
+    }
+    
+    
+    
+    .navigation ul li a .icon {
+        position: relative;
+        display: block;
+        min-width: 60px;
+        height: 60px;
+        line-height: 75px;
+        text-align: center;
+        color: var(--accent);
+    }
+    
+    .navigation ul li a .icon ion-icon {
+        font-size: 1.75rem;
+    }
+    
+    
+    .navigation ul li a .title {
+        position: relative;
+        display: block;
+        font-weight: 400;
+        padding: 0 10px;
+        height: 60px;
+        line-height: 60px;
+        text-align: start;
+        white-space: nowrap;
+        font-family: "Poppins", sans-serif;
+    }
+    
+    /* --------- curve outside ---------- */
+    .navigation ul li:hover a::before,
+    .navigation ul li.hovered a::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: -50px;
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border-radius: 50%;
+        box-shadow: 35px 35px 0 10px var(--secondary);
+        pointer-events: none;
+    }
+    
+    .navigation ul li:hover a::after,
+    .navigation ul li.hovered a::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: -50px;
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border-radius: 50%;
+        box-shadow: 35px -35px 0 10px var(--secondary);
+        pointer-events: none;
+    }
+    
+    
+    
+    /* ===================== Main  ===================== */
+    .main {
+        position: absolute;
+        width: calc(100% - 300px);
+        left: 300px;
+        min-height: 100vh;
+        transition: 0.5s;
+        background-color: var(--background);
+    }
+    
+    .main.active {
+        width: calc(100% - 80px);
+        left: 80px;
+    }
+    
+    .topbar {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+    }
+    
+    .toggle {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2.5rem;
+        cursor: pointer;
+    }
+    
+    
+    
+    .user {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 20px;
+        margin-top: 20px;
+        cursor: pointer;
+        border: 2px solid #9E6A61;
+        box-shadow: 0 0 5px rgba(158, 106, 97, 0.3);
+    }
+    
+    .user img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* Styling for the admin greeting */
+    .admin-greeting {
+    
+        font-size: 35px;
+        margin-top: 20px;
+    }
+    
+    .admin-greeting span {
+        font-weight: bold;
+    }
+    
+    
+    .message {
+        font-size: 18px;
+        margin-top: 10px;
+        color: var(--text);
+        margin-bottom: 10px;
+    }
+    
+    .admin-greeting,
+    .message {
+        margin-left: 25px;
+    }
+    
+    /* ======================= Cards ====================== */
+    .cardBox {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 30px;
+    
+    }
+    
+    .cardBox .card {
+        position: relative;
+        background: var(--secondary);
+        padding: 30px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    }
+    
+    .cardBox .card .borrowed-books,
+    .cardBox .card .available-books,
+    .cardBox .card .total-books {
+        position: relative;
+        font-weight: 500;
+        font-size: 2.5rem;
+        color: var(--text);
+    }
+    
+    .cardBox .card .cardName {
+        color: var(--text);
+        font-size: 1.rem;
+        margin-top: 5px;
+        font-family: "Poppins", sans-serif;
+    }
+    
+    .cardBox .card .iconBx {
+        font-size: 4rem;
+        color: var(--accent);
+    }
+    
+    .cardBox .card:hover {
+        background: var(--primary);
+    }
+    
+    .cardBox .card:hover .borrowed-books,
+    .cardBox .card:hover .available-books,
+    .cardBox .card:hover .total-books,
+    .cardBox .card:hover .cardName,
+    .cardBox .card:hover .iconBx {
+        color: var(--white);
+    }
+    
+    .cardBox .add-book-card {
+        text-align: center;
+        padding: 15px;
+        width: 10rem;
+        position: relative;
+        background: var(--primary);
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    }
+    
+    .cardBox .add-book-card:hover {
+        background: var(--accent);
+    }
+    
+    
+    /* ================== Available Books Details List ============== */
+    .details {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        grid-gap: 30px;
+    }
+    
+    .details .availableBooks {
+        position: relative;
+        /* display: grid; */
+        min-height: 500px;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+    }
+    
+    .details .cardHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    
+    .cardHeader h2 {
+        font-weight: 600;
+        color: var(--text);
+    }
+    
+    .cardHeader .btn {
+        position: relative;
+        padding: 5px 20px;
+        font-weight: 500;
+        background: var(--primary);
+        text-decoration: none;
+        color: var(--white);
+        border-radius: 6px;
+    }
+    
+    .details table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    
+    .details table thead td {
+        font-weight: 600;
+    }
+    
+    .details .availableBooks table tr {
+        color: var(--text);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    /* .details .availableBooks table tr:last-child {
+        border-bottom: none;
+    } */
+    .details .availableBooks table tbody tr:hover {
+        background: var(--accent);
+        color: var(--white);
+    }
+    
+    .details .availableBooks table tr td {
+        padding: 10px;
+        text-align: left;
+    }
+    
+    /* .details .availableBooks table tr td:last-child {
+        text-align: left;
+    }
+    .details .availableBooks table tr td:nth-child(2) {
+        text-align: left;
+    }
+    .details .availableBooks table tr td:nth-child(3) {
+        text-align: left;
+    } */
+    
+    
+    /* ================== Borrowed Books Details List ============== */
+    .details .borrowedBooks {
+        /* width: 100%; */
+        position: relative;
+        /* display: grid; */
+        min-height: 500px;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+    /*   
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 20px; */
+        /* overflow-x: auto; */
+        /* Add horizontal scroll for small screens */
+    }
+    
+    .details .borrowedBooks table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        text-align: left;
+        white-space: nowrap;
+        /* Prevent text wrapping */
+    }
+    
+    .details .borrowedBooks thead td {
+        font-weight: 600;
+        text-align: left !important;
+        padding-bottom: 10px;
+        padding-left: 10px;
+    }
+    
+    .details .borrowedBooks table tr {
+        color: var(--text);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .details .borrowedBooks tbody tr {
+        color: var(--text);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        text-align: left !important;
+    }
+    
+    .details .borrowedBooks tbody td {
+        padding: 10px;
+        text-align: left !important;
+    }
+    
+    .details .borrowedBooks .btn {
+        background: var(--primary);
+        color: var(--white);
+        padding: 5px 20px;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+    
+    .details .borrowedBooks table tbody tr:hover {
+        background: var(--accent);
+        color: var(--white);
+    }
+    
+    
+    
+        /* ====================== all Books Design ========================== */
+        .details .allBooks {
+        position: relative;
+        display:flex;
+        min-height: 500px;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        }
+        
+        .cardHeader h2 {
+        font-weight: 600;
+        color: var(--text);
+        }
+        
+        .cardHeader .btn {
+        position: relative;
+        padding: 5px 20px;
+        font-weight: 500;
+        background: var(--primary);
+        text-decoration: none;
+        color: var(--white);
+        border-radius: 6px;
+        }
+        
+        .details table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        }
+        
+        .details table thead td {
+        font-weight: 600;
+        }
+        
+        .details .allBooks table tr {
+        color: var(--text);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        /* .details .availableBooks table tr:last-child {
+        border-bottom: none;
+        } */
+        .details .allBooks table tbody tr:hover {
+        background: var(--accent);
+        color: var(--white);
+        }
+        
+        .details .allBooks table tr td {
+        padding: 10px;
+        text-align: left;
+        }
+    
+        /* ====================== Modal Design ========================== */
+    
+        .modal_container {
+        display: none;
+        z-index: 100000000  ;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        
+        }
+        
+        .modal{
+        height: 70%;
+        width: 30%;
+        margin: 5% auto;
+        padding: 25px;
+        background-color: white;
+        border-radius: 15px;
+        font-weight: 600;
+        }
+    
+        input{
+        padding: 10px !important;
+        }
+    
+        
+        .form{
+        display: flex;
+        flex-direction: column;
+        }
+        .btn{
+        font-size: 20px !important;
+        color: #E5EAEB !important;
+        background-color: #684640 !important;
+        border: 0 !important;
+        border-radius: 10px !important;
+        height: 45px !important;
+        }
+        
+        .form input, select{
+        color: #222222;
+        background-color: var(--background);
+        border: 1px solid var(--primary);
+        border-radius: 5px;
+        height: 35px;
+        margin-bottom: 25px;
+        }
+        
+        .modal-header {
+        text-align: center;
+        color: var(--accent);
+        margin-bottom:25px ;
+        font-weight: 500;
+        word-spacing: 1px;
+        }
+    
+        .form input{
+        padding: 5px;
+        }
+        
+        .close{
+        color: var(--primary);
+        margin-left: 95%;
+        font-size: 28px;
+        font-weight: bold;
+        }
+        
+        .close, .btn:hover{
+        cursor: pointer;
+        color: var(--accent);
+        }
+    
+        .addbtn{
+        font-weight: 700px;
+        font-size: 20px;
+        padding: 10px;
+        font-weight: 500;
+        color: #EAECDF;
+        background: var(--primary);
+        border: 0;
+        border-radius: 10px;
+        width: 200px;
+        height: 45px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        }
+    
+    
+    /* ====================== Responsive Design ========================== */
+    @media (max-width: 991px) {
+        .navigation {
+        left: -300px;
+        }
+    
+        .navigation.active {
+        width: 300px;
+        left: 0;
+        }
+    
+        .main {
+        width: 100%;
+        left: 0;
+        }
+    
+        .main.active {
+        left: 300px;
+        }
+    
+        .cardBox {
+        grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    
+    @media (max-width: 480px) {
+        .cardBox {
+        grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .details {
+        grid-template-columns: 1fr;
+        }
+    
+        .recentOrders {
+        overflow-x: auto;
+        }
+    
+        .status.inProgress {
+        white-space: nowrap;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cardBox {
+        grid-template-columns: repeat(1, 1fr);
+        }
+    
+        .cardHeader h2 {
+        font-size: 20px;
+        }
+    
+        .user {
+        min-width: 40px;
+        }
+    
+        .navigation {
+        width: 100%;
+        left: -100%;
+        z-index: 1000;
+        }
+    
+        .navigation.active {
+        width: 100%;
+        left: 0;
+        }
+    
+        .toggle {
+        z-index: 10001;
+        }
+    
+        .main.active .toggle {
+        color: #fff;
+        position: fixed;
+        right: 0;
+        left: initial;
+        }
+    }
+    
+    #logout {
+        cursor: pointer;
+    }
