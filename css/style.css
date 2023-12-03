@@ -1,6 +1,6 @@
     /* =============== Globals ============== */
     * {
-        font-family: "Poppins", sans-serif;
+        font-family: "Inter";
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -10,12 +10,14 @@
     :root {
         --blue: #E5EAEB;
         --white: #fff;
-        --primary: #684640;
-        --secondary: #EAECDF;
-        --background: #ECF2F3;
-        --text: #020303;
-        --nav: #E5EAEB;
-        --accent: #9E6A61;
+        --primary: #A8CF45;
+        --secondary: #DCF5D1;
+        --background: #FBF5EE;
+        --text: #020303;    
+        --nav: #e9f0e7;
+        --accent: #28844B;
+    
+    
     }
     
     body {
@@ -37,7 +39,7 @@
         border-left: 10px solid var(--nav);
         transition: 0.5s;
         /* overflow: hidden; */
-        font-family: "Poppins", sans-serif;
+        font-family: "Inter";
     }
     
     .navigation.active {
@@ -53,7 +55,7 @@
     
     
     .navigation ul li:last-child {
-        margin-top: 450px;
+        margin-top: 400px;
     }
     
     .navigation ul li {
@@ -85,12 +87,14 @@
         width: 100%;
         display: flex;
         text-decoration: none;
+        font-weight: 300;
         color: var(--text);
     }
     
     .navigation ul li:hover a,
     .navigation ul li.hovered a {
         color: var(--text);
+        font-weight: bolder;
     }
     
     
@@ -119,7 +123,7 @@
         line-height: 60px;
         text-align: start;
         white-space: nowrap;
-        font-family: "Poppins", sans-serif;
+        font-family: "Inter";
     }
     
     /* --------- curve outside ---------- */
@@ -189,78 +193,149 @@
     }
     
     
+    .user-dropdown {
+        position: relative;
+        display: inline-block;
+        margin-right: 20px;
+        margin-top: 40px;
+    }
+    
+    .user-dropdown .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1;
+        min-width: 230px;
+    
+    }
+    
+    .user-dropdown:hover .dropdown-content {
+        display: block;
+    }
     
     .user {
-        position: relative;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        overflow: hidden;
-        margin-right: 20px;
-        margin-top: 20px;
+        display: flex;
+        align-items: center;
         cursor: pointer;
-        border: 2px solid #9E6A61;
-        box-shadow: 0 0 5px rgba(158, 106, 97, 0.3);
     }
     
     .user img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
         object-fit: cover;
+        border: 2px solid var(--primary);
+        box-shadow: 0 0 5px rgba(98, 86, 84, 0.3);
+        margin-right: 10px;
     }
     
-    /* Styling for the admin greeting */
-    .admin-greeting {
+    .user-info {
+        display: flex;
+        flex-direction: column;
+    }
     
+    .user-name,
+    .user-email {
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+    }
+    
+    .dropdown-content a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color:var(--text);
+        font-size: 18px;
+        transition: background-color 0.3s;
+    }
+    
+    .dropdown-content a:hover {
+        background-color: var(--secondary);
+    }
+    
+    .logout {
+        color: red;
+    }
+    
+    .icon {
+        margin-right: 8px;
+        font-size: 24px; 
+        color: var(--accent);
+    }
+    
+    
+    
+    /* Styling for the  dashboard header */
+    .dashboard-header {
+        position: relative;
+        background: var(--white);
+        padding: 60px;
+        margin-left: 20px;
+        width: 60%;
+        border-radius: 20px;
+        display: flex;
+    }
+    
+    .img img {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        left: 300px;
+        width: 100%;
+        height: 90%;
+        object-fit: contain;
+    }
+    
+    .dashboard-greeting {
         font-size: 35px;
-        margin-top: 20px;
     }
     
-    .admin-greeting span {
+    .dashboard-greeting span {
         font-weight: bold;
     }
-    
     
     .message {
         font-size: 18px;
         margin-top: 10px;
         color: var(--text);
         margin-bottom: 10px;
+        position: relative;
     }
     
-    .admin-greeting,
-    .message {
-        margin-left: 25px;
-    }
+    
     
     /* ======================= Cards ====================== */
     .cardBox {
         position: relative;
-        width: 100%;
+        width: 80%;
         padding: 20px;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-gap: 30px;
+        grid-gap: 20px;
     
     }
     
     .cardBox .card {
         position: relative;
-        background: var(--secondary);
+        background: var(--white);
         padding: 30px;
         border-radius: 20px;
+        border: 2px solid #A8CF45;
         display: flex;
         justify-content: space-between;
         cursor: pointer;
         box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     }
     
-    .cardBox .card .borrowed-books,
-    .cardBox .card .available-books,
-    .cardBox .card .total-books {
+    
+    
+    .cardBox .card .patients-catered,
+    .cardBox .card .patients-today,
+    .cardBox .card .patients-tomorrow,
+    .cardBox .card .patients-yesterday {
         position: relative;
         font-weight: 500;
         font-size: 2.5rem;
@@ -269,9 +344,10 @@
     
     .cardBox .card .cardName {
         color: var(--text);
-        font-size: 1.rem;
-        margin-top: 5px;
-        font-family: "Poppins", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        font-family: "Inter";
     }
     
     .cardBox .card .iconBx {
@@ -283,45 +359,32 @@
         background: var(--primary);
     }
     
-    .cardBox .card:hover .borrowed-books,
-    .cardBox .card:hover .available-books,
-    .cardBox .card:hover .total-books,
+    .cardBox .card:hover  .patients-catered,
+    .cardBox .card:hover  .patients-today,
+    .cardBox .card:hover  .patients-tomorrow,
+    .cardBox .card:hover  .patients-yesterday,
     .cardBox .card:hover .cardName,
     .cardBox .card:hover .iconBx {
         color: var(--white);
     }
     
-    .cardBox .add-book-card {
-        text-align: center;
-        padding: 15px;
-        width: 10rem;
-        position: relative;
-        background: var(--primary);
-        border-radius: 20px;
-        display: flex;
-        justify-content: space-between;
-        cursor: pointer;
-        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    }
-    
-    .cardBox .add-book-card:hover {
-        background: var(--accent);
-    }
     
     
-    /* ================== Available Books Details List ============== */
+    
+    
+    /* ================== Dashboard Appointments Table Section ============== */
     .details {
         position: relative;
         width: 100%;
         padding: 20px;
         display: grid;
-        grid-template-columns: 2fr 2fr;
+        grid-template-columns: 2fr 1.5fr;
         grid-gap: 30px;
+        margin-left: 10px;
     }
     
-    .details .availableBooks {
+    .details .appointmentsContainer {
         position: relative;
-        /* display: grid; */
         min-height: 500px;
         background: var(--white);
         padding: 20px;
@@ -336,270 +399,216 @@
     }
     
     .cardHeader h2 {
-        font-weight: 600;
+        font-weight: bold;
         color: var(--text);
+        font-size: 24px;
     }
     
     .cardHeader .btn {
         position: relative;
-        padding: 5px 20px;
-        font-weight: 500;
-        background: var(--primary);
+        padding: 12px 36px;
+        font-size: 22px;
+        font-weight: bold;
+        background: var(--accent);
         text-decoration: none;
         color: var(--white);
-        border-radius: 6px;
+        border-radius: 10px;
     }
     
     .details table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
+        margin-top: 20px;
     }
     
     .details table thead td {
-        font-weight: 600;
+        font-weight:200;
+        color: #FBFEFD;
+        margin-left: 10px;
     }
     
-    .details .availableBooks table tr {
+    #appointmentsTable thead{
+        background-color: #A8CF45;
+        font-weight: 100;
+        color: white; 
+    
+    }
+    .details .appointmentsContainer table tr {
         color: var(--text);
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     
-    /* .details .availableBooks table tr:last-child {
-        border-bottom: none;
-    } */
-    .details .availableBooks table tbody tr:hover {
+    
+    .details .appointmentsContainer table tbody tr:hover {
         background: var(--accent);
         color: var(--white);
     }
     
-    .details .availableBooks table tr td {
-        padding: 10px;
-        text-align: left;
+    .details .appointmentsContainer table tr td {
+    padding: 10px;
+    text-align:  left;
+    font-size: 18px;
     }
-    
-    /* .details .availableBooks table tr td:last-child {
-        text-align: left;
-    }
-    .details .availableBooks table tr td:nth-child(2) {
-        text-align: left;
-    }
-    .details .availableBooks table tr td:nth-child(3) {
-        text-align: left;
-    } */
+        
     
     
-    /* ================== Borrowed Books Details List ============== */
-    .details .borrowedBooks {
-        /* width: 100%; */
-        position: relative;
-        /* display: grid; */
-        min-height: 500px;
-        background: var(--white);
-        padding: 20px;
-        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    
+    /*Calendar css*/
+    
+    
+    .wrapper .make-appointment{
+        background: linear-gradient(45deg, #22613e, #28ba72, #99dbb0);
+        width: 90%;
+        height: 150px;
         border-radius: 20px;
-    /*   
-        background: var(--white);
-        padding: 20px;
+        margin-bottom: 20px;
+        padding: 15px;
         box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-        border-radius: 20px; */
-        /* overflow-x: auto; */
-        /* Add horizontal scroll for small screens */
-    }
-    
-    .details .borrowedBooks table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        text-align: left;
-        white-space: nowrap;
-        /* Prevent text wrapping */
-    }
-    
-    .details .borrowedBooks thead td {
-        font-weight: 600;
-        text-align: left !important;
-        padding-bottom: 10px;
-        padding-left: 10px;
-    }
-    
-    .details .borrowedBooks table tr {
-        color: var(--text);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    
-    .details .borrowedBooks tbody tr {
-        color: var(--text);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        text-align: left !important;
-    }
-    
-    .details .borrowedBooks tbody td {
-        padding: 10px;
-        text-align: left !important;
-    }
-    
-    .details .borrowedBooks .btn {
-        background: var(--primary);
-        color: var(--white);
-        padding: 5px 20px;
-        font-weight: 500;
-        text-decoration: none;
-        border-radius: 6px;
-    }
-    
-    .details .borrowedBooks table tbody tr:hover {
-        background: var(--accent);
-        color: var(--white);
     }
     
     
-    
-        /* ====================== all Books Design ========================== */
-        .details .allBooks {
-        position: relative;
-        display:flex;
-        min-height: 500px;
-        background: var(--white);
-        padding: 20px;
-        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-        border-radius: 20px;
-        }
-        
-        .cardHeader h2 {
-        font-weight: 600;
-        color: var(--text);
-        }
-        
-        .cardHeader .btn {
-        position: relative;
-        padding: 5px 20px;
-        font-weight: 500;
-        background: var(--primary);
-        text-decoration: none;
-        color: var(--white);
-        border-radius: 6px;
-        }
-        
-        .details table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        }
-        
-        .details table thead td {
-        font-weight: 600;
-        }
-        
-        .details .allBooks table tr {
-        color: var(--text);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        /* .details .availableBooks table tr:last-child {
-        border-bottom: none;
-        } */
-        .details .allBooks table tbody tr:hover {
-        background: var(--accent);
-        color: var(--white);
-        }
-        
-        .details .allBooks table tr td {
-        padding: 10px;
-        text-align: left;
-        }
-    
-        /* ====================== Modal Design ========================== */
-    
-        .modal_container {
-        display: none;
-        z-index: 100000000  ;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        
-        }
-        
-        .modal{
-        height: 70%;
-        width: 30%;
-        margin: 5% auto;
-        padding: 25px;
-        background-color: white;
-        border-radius: 15px;
-        font-weight: 600;
-        }
-    
-        input{
-        padding: 10px !important;
-        }
-    
-        
-        .form{
+    .make-appointment {
+        border: 1px solid #ccc;
+        padding: 180px;
         display: flex;
-        flex-direction: column;
-        }
-        .btn{
-        font-size: 20px !important;
-        color: #E5EAEB !important;
-        background-color: #684640 !important;
-        border: 0 !important;
-        border-radius: 10px !important;
-        height: 45px !important;
-        }
-        
-        .form input, select{
-        color: #222222;
-        background-color: var(--background);
-        border: 1px solid var(--primary);
-        border-radius: 5px;
-        height: 35px;
-        margin-bottom: 25px;
-        }
-        
-        .modal-header {
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .header-section {
+        flex: 1;
+    }
+    
+    .header-section h2 {
+        margin-left: 30px;
+        font-size: 30px;
+        color: var(--white);
+    }
+    
+    .header-section p {
+        margin-left: 30px;
+        margin-top: 10px;
+        color: var(--background);
+        font-size: 18px;
+    }
+    
+    .button-section {
+        margin-left: 20px; 
+        margin-right: 30px;
+    }
+    
+    .icon-button {
+        background-color:var(--white);
+        color:var(--accent);
+        border: none;
+        padding: 10px 15px;
         text-align: center;
-        color: var(--accent);
-        margin-bottom:25px ;
-        font-weight: 500;
-        word-spacing: 1px;
-        }
-    
-        .form input{
-        padding: 5px;
-        }
-        
-        .close{
-        color: var(--primary);
-        margin-left: 95%;
-        font-size: 28px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 36px;
         font-weight: bold;
-        }
-        
-        .close, .btn:hover{
+        text-align: center;
+        width: 64px;
+        height: 56px;
         cursor: pointer;
-        color: var(--accent);
-        }
+        border-radius: 5px;
+    }
+    .details .wrapper .calendar-container{
+        width: 90%; 
+        position: relative;
+        min-height: 500px;
+        background: var(--background);
+        padding: 15px;
     
-        .addbtn{
-        font-weight: 700px;
-        font-size: 20px;
-        padding: 10px;
-        font-weight: 500;
-        color: #EAECDF;
+    } 
+    
+    .wrapper header{
+        display: flex;
+        align-items: center;
+        padding: 25px 30px 10px;
+        justify-content: space-between;
+    
+    }
+    header .icons{
+        display: flex;
+    
+    }
+    header .icons span{
+        height: 38px;
+        width: 38px;
+        margin: 0 1px;
+        cursor: pointer;
+        color: var(--white);
+        background-color: var(--accent);
+        text-align: center;
+        line-height: 38px;
+        font-size: 1.9rem;
+        user-select: none;
+        margin-left: 5PX;
+        border-radius: 20%;
+        font-weight: bold;
+    }
+    .icons span:last-child{
+        margin-right: -10px;
+    }
+    header .icons span:hover{
         background: var(--primary);
-        border: 0;
-        border-radius: 10px;
-        width: 200px;
-        height: 45px;
-        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-        }
+    }
+    header .current-date{
+        font-size: 1.45rem;
+        font-weight: 500;
+    }
+    .calendar{
+        padding: 20px;
     
-    
+    }
+    .calendar ul{
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        text-align: center;
+    }
+    .calendar .days{
+        margin-bottom: 20px;
+    }
+    .calendar li{
+        color: #333;
+        width: calc(100% / 7);
+        font-size: 1.07rem;
+    }
+    .calendar .weeks li{
+        font-weight: 500;
+        cursor: default;
+    }
+    .calendar .days li{
+        z-index: 1;
+        cursor: pointer;
+        position: relative;
+        margin-top: 30px;
+    }
+    .days li.inactive{
+        color: #aaa;
+    }
+    .days li.active{
+        color: #fff;
+    }
+    .days li::before{
+        position: absolute;
+        content: "";
+        left: 50%;
+        top: 50%;
+        height: 40px;
+        width: 40px;
+        z-index: -1;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .days li.active::before{
+        background: var(--accent);
+    }
+    .days li:not(.active):hover::before{
+        background: #f2f2f2;
+    }
     /* ====================== Responsive Design ========================== */
     @media (max-width: 991px) {
         .navigation {
@@ -637,13 +646,12 @@
         grid-template-columns: 1fr;
         }
     
-        .recentOrders {
+        .appointmentsContainer {
         overflow-x: auto;
         }
     
-        .status.inProgress {
-        white-space: nowrap;
-        }
+    
+        
     }
     
     @media (max-width: 480px) {
@@ -682,6 +690,63 @@
         }
     }
     
+    @media (max-width: 991px) {
+        .dashboard-header {
+        width: 80%;
+        }
+    
+    
+        .img img {
+        position: static;
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .dashboard-header {
+        padding: 40px;
+        flex-direction: column;
+        align-items: center;
+        }
+    
+    
+        .dashboard-greeting {
+        font-size: 24px;
+        text-align: center;
+        }
+    
+        .img img {
+        display: none; 
+        }
+    
+    
+        .message{
+        padding: 30px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .dashboard-header {
+        width: 100%;
+        padding: 20px;
+        }
+    
+    
+        .dashboard-greeting {
+        font-size: 20px;
+        }
+        .img img {
+        display: none; 
+        }
+    
+    
+        .message {
+        font-size: 16px;
+        }
+    }
     #logout {
         cursor: pointer;
     }
