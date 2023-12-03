@@ -208,7 +208,9 @@ form {
 }
 
 .forgot_password{
-    padding: 0 0 0 20px;
+    float: right;
+    width: 25%;
+    padding: 0;
     text-align: right;
 }
 
