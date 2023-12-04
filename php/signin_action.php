@@ -36,19 +36,44 @@
         $isPassword = password_verify($password, $obj->password);
         if ($isPassword == true) {
             $status = 200;
-            $retVal = "Success.";
             $data = $obj;
             $_SESSION['user_id'] = $obj->id;
             $_SESSION['user_firstName'] = $obj->first_name;
             $_SESSION['user_lastName'] = $obj->last_name;
             $_SESSION['user_email'] = $obj->email;
+            $_SESSION['role'] = $obj->role;
+            $_SESSION['sex'] = $obj->sex;
             $_SESSION['user_name'] = "$obj->first_name $obj->last_name";
+
         } else {
             $retVal = "You may have entered a wrong email or password.";
 
         }
     } else {
-        $retVal = "Account does not exist.";   
+        $stmt = $con->prepare("SELECT * FROM admins WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $obj = mysqli_fetch_object($result);
+        $stmt->close();
+            if ($result->num_rows > 0) {
+                $isPassword = password_verify($password, $obj->password);
+                if ($isPassword == true){
+                    $status = 200;
+                    $data = $obj;
+                    $_SESSION['admin_id'] = $obj->id;
+                    $_SESSION['admin_firstName'] = $obj->first_name;
+                    $_SESSION['admin_lastName'] = $obj->last_name;
+                    $_SESSION['admin_email'] = $obj->email;
+                    $_SESSION['role'] = $obj->role;
+                    $_SESSION['admin_name'] = "$obj->first_name $obj->last_name";
+    
+                } else {
+                    $retVal = "Incorrect password.";   
+                }
+            } else {
+                $retVal = "Account does not exist.";   
+            } 
     }
 }
 

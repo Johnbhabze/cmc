@@ -10,6 +10,7 @@
     $sex = strtolower($_REQUEST['sex']);
     $tel = ($_REQUEST['tel']);
     $email = trim($_REQUEST['email']);
+    $role = "";
     $password = trim($_REQUEST['password']);
     $confirmpassword = trim($_REQUEST['confirm_password']);
 
@@ -58,16 +59,18 @@
 
 
     if($isValid){
-        $insertSQL = "INSERT INTO users (first_name,last_name,birthdate,sex,phone_number,email,password ) values(?,?,?,?,?,?,?)";
+        $role = 'user-only';
+        $insertSQL = "INSERT INTO users (first_name, last_name, birthdate, sex, phone_number, email, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $con->prepare($insertSQL);
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt->bind_param("sssssss", $firstName, $lastName, $birthdate, $sex, $tel, $email, $password);
+        $stmt->bind_param("ssssssss", $firstName, $lastName, $birthdate, $sex, $tel, $email, $password, $role);
         $stmt->execute();
         $stmt->close();
         $retVal = "Account created successfully.";
         unset($_SESSION['user_email']);
         $status = 200;
     }
+    
 
 
     $myObj = array(

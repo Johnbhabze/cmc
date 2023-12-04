@@ -1,9 +1,17 @@
 <?php
-    session_start();
-    if(!isset($_SESSION["user_email"])){
-        header("Location: index.php");
-        exit();
+session_start();
+
+if(isset($_SESSION["user_email"])){
+    if($_SESSION["role"] === 'admin-only'){
+        // echo "<script>window.location.href='admin_dashboard.php'</script>";
+        header('location: admin_dashboard.php');
+
     }
+
+}    else{
+    header("Location: index.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +41,7 @@
 
 
 
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 
 
@@ -49,7 +57,7 @@
                 <li>
                     <a href="dashboard.html">
                         <div class="logo">
-                            <img src="../../imgs/logo.png" alt="">
+                            <img src="../imgs/sidebarlogo.png" alt="">
                         </div>
                     </a>
                 </li>
@@ -112,10 +120,24 @@
 
                 <div class="user-dropdown">
                     <div class="user">
-                        <img src="../../imgs/user.png" alt="">
+                        <?php
+                        if($_SESSION['sex'] == 'male'){
+                            echo '<img style="width: 50px; padding:0" src="../imgs/male.png" alt="user_img">';
+                        }else
+                            echo '<img style="width: 50px; padding:0" src="../imgs/female.png" alt="user_img">';
+                        ?>
+                        
                         <div class="user-info">
-                            <p class="user-name">Angelica Dy</p>
-                            <p class="user-email">angelica.dy@gmail.com</p>
+                            <p class="user-name">
+                                <?php
+                                    echo $_SESSION['user_name'] 
+                                ?>
+                            </p>
+                            <p class="user-email">
+                                <?php
+                                    echo $_SESSION['user_email'] 
+                                ?>
+                            </p>
                         </div>
                     </div>
 
@@ -129,7 +151,7 @@
                         <a href="#" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> My History
                         </a>
-                        <a href="#" class="logout">
+                        <a class="logout" onclick="signoutClick(event)">
                             <ion-icon class="icon" name="log-out-outline"></ion-icon> Sign out
                         </a>
                     </div>
@@ -143,15 +165,17 @@
             <div class="dashboard-header">
                 <div class="dashboard-greeting">
                     <span style="color: #020303;">Hello</span>,
-                    <span style="color: #28844B;"> Angelica Dy
-
+                    <span style="color: #28844B;">
+                    <?php
+                        echo $_SESSION['user_name'] 
+                    ?>
                     </span>!
                     <div class="message">
                         Welcome to CMC Service Portal! Your health is our top priority. </div>
                 </div>
 
                 <div class="img">
-                    <img src="../../imgs/abstract.png" alt="">
+                    <img src="../imgs/abstract.png" alt="">
                 </div>
 
 

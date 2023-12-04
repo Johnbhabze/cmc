@@ -1,25 +1,51 @@
 var xhttp = new XMLHttpRequest();
 
-// <============== SIGN IN ACCOUNT / LOG IN ================>
-function signinSubmit(e){
+function signinSubmit(e) {
     var url = "../php/signin_action.php";
     var data = $("#signinForm").serialize();
-    var urlData = url+"?"+data;
+    var urlData = url + "?" + data;
+
     xhttp.open("GET", urlData, true);
     xhttp.send();
-    xhttp.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            var res = JSON.parse(this.responseText);
-            if(res["status"] == 200){
-                $('#signinForm')[0].reset();                           
-                window.location.replace('../public/dashboard.php');
-            }else{
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            // console.log('Server Response:', this.responseText);
+    
+            if (this.status == 200) {
+                try {
+                    var res = JSON.parse(this.responseText);
+                    // console.log('Parsed Response:', res);
+                    document.getElementById('errorMsg').innerText = res.message;
+    
+                    if (res.status === 200) {
+                        $('#signinForm')[0].reset();
+
+                        if (res.data.role === 'user-only') {
+                            window.location.href = '../public/user_dashboard.php';
+                        } else if (res.data.role === 'admin-only') {
+                            window.location.href = '../public/admin_dashboard.php';
+                        } else {
+                            document.getElementById('errorMsg').innerText = res.message;
+                            // console.error('Unknown role:', res.data.role);
+                        }
+                    } else {
+                        document.getElementById('errorMsg').innerText = res.message;
+                        // console.error('Server returned status:', res.status, 'Message:', res.message);
+                    }
+                } catch (e) {
+                    document.getElementById('errorMsg').innerText = res.message;
+                    // console.error('Error parsing JSON response:', e);
+                }
+            } else {
                 document.getElementById('errorMsg').innerText = res.message;
+                // console.error('Server returned non-200 status:', this.status);
             }
         }
     };
+    
     e.preventDefault();
 }
+
 
 
 // <============== REGISTER ACCOUNT / SIGN UP ================>
