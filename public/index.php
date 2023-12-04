@@ -1,9 +1,14 @@
 <?php
-    session_start();
-    if(isset($_SESSION["user_email"])){
-        header("Location: dashboard.php");
-        exit();
+session_start();
+
+if(isset($_SESSION["user_email"])){
+    if($_SESSION["user_role"] === 'user-only'){
+        header("Location: user_dashboard.php");
+
+    } else if ($_SESSION["user_role"] === 'admin-only'){
+        header("Location: admin_dashboard.php");
     }
+}
 ?>
 
 <!DOCTYPE html>
