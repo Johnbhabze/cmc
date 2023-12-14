@@ -1,18 +1,11 @@
 <?php
 session_start();
-
-if(isset($_SESSION["user_email"])){
-    if($_SESSION["role"] === 'admin-only'){
-        // echo "<script>window.location.href='admin_dashboard.php'</script>";
-        header('location: admin_dashboard.php');
-
-    }
-
-}    else{
-    header("Location: index.php");
+if (!isset($_SESSION["user_email"])) {
+    header('Location: ../index.php');
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +19,7 @@ if(isset($_SESSION["user_email"])){
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script type="text/javascript" src="../js/authentication.js"></script>
-    <link rel="icon" type="image/x-icon" href="../imgs/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../imgs/favicon.ico">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
 
 
@@ -36,12 +29,12 @@ if(isset($_SESSION["user_email"])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 
 
@@ -57,12 +50,12 @@ if(isset($_SESSION["user_email"])){
                 <li>
                     <a href="user_dashboard.php">
                         <div class="logo">
-                            <img src="../imgs/sidebarlogo.png" alt="">
+                            <img src="../../imgs/logo(2).png" alt="">
                         </div>
                     </a>
                 </li>
 
-                <li>
+                <li style="background-color: #FBF5EE; font-size: 25px">
                     <a href="user_dashboard.php">
                         <span class="icon">
                             <ion-icon name="home"></ion-icon>
@@ -71,14 +64,14 @@ if(isset($_SESSION["user_email"])){
                     </a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="availableSlots.php">
                         <span class="icon">
                             <ion-icon name="time-outline"></ion-icon>
                         </span>
                         <span class="title">Available Slots</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li>
                     <a href="myAppointments.php">
@@ -99,7 +92,7 @@ if(isset($_SESSION["user_email"])){
                 </li>
 
                 <li>
-                    <a onclick="signoutClick(event)" id="logout">
+                <a onclick="signoutClick(event)" id="logout">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>
@@ -121,34 +114,34 @@ if(isset($_SESSION["user_email"])){
                 <div class="user-dropdown">
                     <div class="user">
                         <?php
-                            if($_SESSION['sex'] === 'male'){
-                                echo '<img src="../imgs/male.png" alt="user-male">';
-                            }else {
-                                echo  '<img src="../imgs/female.png" alt="user-female">';
-                            }
+                        if ($_SESSION['sex'] === 'male') {
+                            echo '<img src="../../imgs/male.png" alt="user-male">';
+                        } else {
+                            echo  '<img src="../../imgs/female.png" alt="user-female">';
+                        }
                         ?>
                         <div class="user-info">
                             <p class="user-name">
                                 <?php
-                                    echo $_SESSION['user_name'];
+                                echo $_SESSION['user_name'];
                                 ?>
                             </p>
                             <p class="user-email">
                                 <?php
-                                    echo $_SESSION['user_email'];
+                                echo $_SESSION['user_email'];
                                 ?>
                             </p>
                         </div>
                     </div>
 
                     <div class="dropdown-content">
-                        <a href="#" class="appointments">
+                        <a href="myAppointments.php" class="appointments">
                             <ion-icon class="icon" name="calendar-outline"></ion-icon> My Appointments
                         </a>
-                        <a href="#" class="slots">
+                        <!-- <a href="availableSlots.php" class="slots">
                             <ion-icon class="icon" name="time-outline"></ion-icon> Available Slots
-                        </a>
-                        <a href="#" class="history">
+                        </a> -->
+                        <a href="myHistory.php" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> My History
                         </a>
                         <a href="#" class="logout" onclick="signoutClick(event)">
@@ -158,16 +151,12 @@ if(isset($_SESSION["user_email"])){
                 </div>
             </div>
 
-
-
-
-
             <div class="dashboard-header">
                 <div class="dashboard-greeting">
                     <span style="color: #020303;">Hello</span>,
                     <span style="color: #28844B;">
                         <?php
-                            echo $_SESSION['user_name'];
+                        echo $_SESSION['user_name'];
                         ?>
                     </span>!
                     <div class="message">
@@ -175,13 +164,13 @@ if(isset($_SESSION["user_email"])){
                 </div>
 
                 <div class="img">
-                    <img src="../imgs/abstract.png" alt="">
+                    <img src="../../imgs/abstract.png" alt="">
                 </div>
-
-
-
-
             </div>
+
+
+
+
 
 
 
@@ -190,10 +179,10 @@ if(isset($_SESSION["user_email"])){
                 <div class="card">
                     <div>
                         <div class="patients-catered" id="patients-catered">
-                            12
+                            100
                             <!-- ================ AJAX ONLOAD DATA FETCH ================= -->
                         </div>
-                        <div class="cardName">No. of Patients Catered</div>
+                        <div class="cardName">No. of Patients Catered per day</div>
                     </div>
 
                     <div class="iconBx">
@@ -206,7 +195,7 @@ if(isset($_SESSION["user_email"])){
                 <div class="card">
                     <div>
                         <div class="patients-today" id="patients-today">
-                            14
+
                             <!-- ================ AJAX ONLOAD DATA FETCH ================= -->
                         </div>
                         <div class="cardName">No. of Patients Today</div>
@@ -223,7 +212,7 @@ if(isset($_SESSION["user_email"])){
                     <div>
                         <div class="patients-tomorrow" id="patients-tomorrow">
 
-                            13
+
                             <!-- ================ AJAX ONLOAD DATA FETCH ================= -->
                         </div>
                         <div class="cardName">No. of Patients for Tomorrow</div>
@@ -276,55 +265,13 @@ if(isset($_SESSION["user_email"])){
                                 <td>Type</td>
                                 <td>Schedule</td>
                                 <td>Status</td>
-                            
+
                             </tr>
                         </thead>
 
-                            
+
                         <tbody>
-                            <!-- Placeholder Data -->
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>On going</td>
-
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>Scheduled</td>
-
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>Scheduled</td>
-
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-
-                            </tr>
+                
                         </tbody>
                     </table>
                 </div>
@@ -348,7 +295,7 @@ if(isset($_SESSION["user_email"])){
 
                     <div class="calendar-container">
                         <header>
-                            <p class="current-date"></p>
+                            <div class="current-date"></div>
                             <div class="icons">
                                 <span id="prev" class="material-symbols-rounded">chevron_left</span>
                                 <span id="next" class="material-symbols-rounded">chevron_right</span>
@@ -382,7 +329,12 @@ if(isset($_SESSION["user_email"])){
 
 
     <!-- =========== Scripts =========  -->
-    <script src="../js/main.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/script.js"></script>
+    <script src="../../js/authentication.js"></script>
+
+
+
 
 
 
