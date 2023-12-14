@@ -1,5 +1,9 @@
 <?php
 include '../../php/connection.php';
+
+if (!isset($_SESSION["user_email"])) {
+    header('Location: ../index.php');
+}
 ?>
 
 
@@ -23,6 +27,7 @@ include '../../php/connection.php';
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/myAppointments.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -52,21 +57,21 @@ include '../../php/connection.php';
                     </a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="availableSlots.php">
                         <span class="icon">
                             <ion-icon name="time-outline"></ion-icon>
                         </span>
                         <span class="title">Available Slots</span>
                     </a>
-                </li>
+                </li> -->
 
-                <li>
+                <li style="background-color: #FBF5EE; font-size: 25px">
                     <a href="myAppointments.php">
                         <span class="icon">
                             <ion-icon name="calendar"></ion-icon>
                         </span>
-                        <span class="title">My Appointments</span>
+                        <span class="title">Appointments</span>
                     </a>
                 </li>
 
@@ -80,7 +85,7 @@ include '../../php/connection.php';
                 </li>
 
                 <li>
-                    <a onclick="signoutClick(event)" id="logout">
+                <a onclick="signoutClick(event)" id="logout">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>
@@ -101,24 +106,39 @@ include '../../php/connection.php';
 
                 <div class="user-dropdown">
                     <div class="user">
-                        <img src="../../imgs/user.png" alt="">
+                        <?php
+                        if ($_SESSION['sex'] === 'male') {
+                            echo '<img src="../../imgs/male.png" alt="user-male">';
+                        } else {
+                            echo  '<img src="../../imgs/female.png" alt="user-female">';
+                        }
+                        ?>
                         <div class="user-info">
-                            <p class="user-name">Angelica Dy</p>
-                            <p class="user-email">angelica.dy@gmail.com</p>
+                            <p class="user-name">
+                                <?php
+                                echo $_SESSION['user_name'];
+                                ?>
+                            </p>
+                            <p class="user-email">
+                                <?php
+                                echo $_SESSION['user_email'];
+                                ?>
+                            </p>
                         </div>
                     </div>
 
+                    
                     <div class="dropdown-content">
                         <a href="myAppointments.php" class="appointments">
                             <ion-icon class="icon" name="calendar-outline"></ion-icon> My Appointments
                         </a>
-                        <a href="availableSlots.php" class="slots">
+                        <!-- <a href="availableSlots.php" class="slots">
                             <ion-icon class="icon" name="time-outline"></ion-icon> Available Slots
-                        </a>
+                        </a> -->
                         <a href="myHistory.php" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> My History
                         </a>
-                        <a href="#" class="logout">
+                        <a href="#" class="logout" onclick="signoutClick(event)">
                             <ion-icon class="icon" name="log-out-outline"></ion-icon> Sign out
                         </a>
                     </div>
@@ -128,10 +148,13 @@ include '../../php/connection.php';
             <div class="appointments-title">
                 <span style="color: #020303;">My</span>
                 <span style="color: #28844B;"> Appointments
-
                 </span>
-
+                <!-- Department Legends Button -->
+                <button class="department-legends-btn" onclick="openDepartmentLegendsModal()">Department Legends
+                </button>
             </div>
+            
+
 
 
             <!-- ================ My dependents ================= -->
@@ -148,22 +171,7 @@ include '../../php/connection.php';
 
                     <!-- Dependent Details Section -->
                     <div class="dependent-details">
-                      
-
-
-                        <div class="dependent-card">
-                            <p>Name: Angelica Dy</p>
-                            <p>Age: 25</p>
-                            <p>Sex: Male</p>
-                            <button class="btn make-appointment-btn">Make Appointment</button>
-                        </div>
-
-                        <div class="dependent-card">
-                            <p>Name: Angelica Dy </p>
-                            <p>Age: 30</p>
-                            <p>Sex: Female</p>
-                            <button class="btn make-appointment-btn">Make Appointment</button>
-                        </div> 
+                       
                     </div>
                 </div>
 
@@ -184,21 +192,335 @@ include '../../php/connection.php';
                         </thead>
 
                         <tbody>
+                            <?php
+
+                            $user_id = $_SESSION['user_id'];
+
+                            if ($user_id) {
+                                // Fetch appointments data for the specific user
+                                $sql = "SELECT CONCAT(patients.first_name, ' ', patients.last_name) AS patient_name,
+                   appointments.category, appointments.day, appointments.stat, appointments.appointment_id
+            FROM appointments
+            JOIN patients ON appointments.patient_id = patients.patient_id
+            WHERE appointments.user_id = $user_id   ORDER BY appointments.day DESC";
+
+                                $result = $con->query($sql);
+
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row["patient_name"] . "</td>";
+                                        echo "<td>" . $row["category"] . "</td>";
+                                        echo "<td>" . $row["day"] . "</td>";
+                                        echo "<td>" . $row["stat"] . "</td>";
+                                        echo '<td><button data-id="' . $row['appointment_id'] . '" class="view-button"><i class="fa-regular fa-eye"></i> View</button></td>';
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr>";
+                                    echo "<td></td>";
+                                    echo '<td colspan="5"><img src="../../imgs/appointment.png" alt="No Appointments Image"></td>';
+
+                                    echo "</tr>";
+                                }
+
+                                // Close the database connection
+                                $con->close();
+                            }
+                            ?>
 
 
-                      </tbody>
+
+                        </tbody>
                     </table>
                 </div>
 
 
+
                 <!-- Modal -->
-                <form id="addDependentForm" onsubmit="submitAddDependentForm(event)">
+                <div id="departmentLegend" class="department-legend-modal">
+                    <div class="modal-content">
+                        <span class="dlclose-btn" onclick="closeDepartmentLegendsModal()">&times;</span>
+                        <h2 class="dlTitle"> Department Legends</h2>
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>CECAP</h2><br>
+                                <ul>
+                                    <li>PAGPA KONSULTA UG PAG PA OPERA SA CANCER SA MATRES, OVARIO UG CERVIX</li>
+                                    <li>MONDAY- FACE TO FACE PARA SA CERVICAL CANCER</li>
+                                    <li>TUESDAY- FACE TO FACE PARA SA TANANG OVARIAN CANCER, H.MOLE AND GTN</li>
+                                    <li>THURSDAY- FACE TO FACE PARA SA ENDOMETRIAL CANCER</li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Tue, Thu</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 11:00 am</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>DENTAL</h2><br>
+                                <ul>
+                                    <li>PLEASE CALL 09876543212</li> <br>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Wed, Thu, Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 3:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>ENT-HNS (EAR,NOSE,THROAT-HEAD AND NECK SURGERY)</h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA UG PAGPA OPERA SA MGA BUGON O SAKIT SA LIOG , ILONG, BABA UG DUNGGAN</li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Wed, Thu, Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 3:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>FAMILY MEDICINE</h2><br>
+                                <ul>
+                                    <li>PAGPACONSULTA SA DERMATOLOGY, TB, PALLIATIVE/HOSPICE CARE, GERIATRICS , UG SA MGA PASYENTE NGA FIRST TIME MAGPAKONSULTA</li>
+                                    <br>
+
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon,Tue,Wed,Thu,Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 12:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>GENERAL SURGERY</h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA UG PAGPA OPERA SA NAGKA-LAINGLAING SAKIT/ TUMOR SA LAWAS ( SAMA SA TINAE , TOTOY) ,WALAY LABOT SA SAKIT SA MATRIS O OVARIO</li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon,Tue,Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 12:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>GYNE</h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA UG PAGPA OPERA SA NAGKA LAINGLAING SAKIT/ TUMOR SA BABAYE (KINATAWO, MATRIS, OVARIO) UG SA MGA NAKUHAAN, WALAY LABOT SA TUMOR SA TOTOY</li>
+                                    <br>
+
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon,Wed,Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 7:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>NEUROSURGERY
+
+                                </h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA UG PAGPA OPERA SA SAKIT SA ULO/UTOK UG SPINE. WEDNESDAY- OLD PATIENT, THURSDAY- NEW PATIENT
+                                    </li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Wed, Thu</li>
+                                    <li>Opening Time: 1:00 pm</li>
+                                    <li>Closing Time: 3:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>INTERNAL MEDICINE (GENERAL)
+                                </h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA SA MGA NAGKA LAINGLAING PARTE SA LAWAS NGA DILI KAILANGAN UG OPERASYON NGA NAG EDAD 19 UG PATAAS ( SAMA SA DIABETES, ENDOCRINE, CARDIAC CLINIC, NEUROLOGY, HEMATOLOGY, GASTROENTEROLOGY, NEPHROLOGY/RENAL O DIALYSIS, RHEUMATOLOGY/LUPUS UG PULMONOLOGY)
+                                    </li>
+                                    <br>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon,Wed,Thu</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 11:00 am</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>OB (PREGNANT/BUNTIS ONLY)
+
+
+                                </h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA SA BUNTIS UG BAG-O LANG NANGANAK
+
+                                    </li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Tue, Thu, Friday</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 7:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>OPHTHALMOLOGY/EYE CENTER
+
+                                </h2><br>
+                                <ul>
+                                    <li>PLEASE CALL 09086339835
+                                    </li>
+                                    <br>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Wed, Thu, Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 3:00 pm</li>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>ORTHOPEDICS
+                                </h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA UG PAGPA OPERA SA SAKIT/NABALIAN SA BUKOG, SPINE, HAND AND FOOT
+                                    </li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Wed, Thu</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 4:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>PEDIA (GENERAL)
+
+                                </h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA SA MGA NAGKALAINGLAING SAKIT SA BATA NGA NAG EDAD UG 18 UG PAUBOS
+
+                                    </li>
+                                    <br>
+
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon,Wed,Thu</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 11:00 am</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>PRIMARY CARE </h2><br>
+                                <ul>
+                                    <li>UNANG PAGPAKONSULTA SA OPD SA LAING LAING SAKIT SA LAWAS ( PARA SA ADULT/DAGKO) EDAD 19 UG PATAAS
+                                    </li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Wed, Thu</li>
+                                    <li>Opening Time: 1:00 pm</li>
+                                    <li>Closing Time: 3:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>UROLOGY
+
+                                </h2><br>
+                                <ul>
+                                    <li>PAGPAKONSULTA UG PAGPA OPERA SA SAKIT SA PANTOG, PROSTATA , KINATAWO SA LALAKI UG BATO SA KIDNEY. (SUGOD SEPTEMBER NAA NA SA OPD BUILDING)
+                                    </li>
+                                    <br>
+
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Tue, Friday</li>
+                                    <li>Opening Time: 3:00 pm</li>
+                                    <li>Closing Time: 5:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-left">
+                            <div class="department-info">
+                                <h2>ANIMAL BITES TREATMENT CENTER
+                                </h2><br>
+                                <ul>
+                                    <li>PARA SA PERMIRONG PAGPAKONSULTA SA MGA NAPAAKAN OG IRO UG IRING </li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Thu, Fri</li>
+                                    <li>Opening Time: 8:00 am</li>
+                                    <li>Closing Time: 4:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-right">
+                            <div class="department-info">
+                                <h2>GASTROENTEROLOGY
+                                </h2><br>
+                                <ul>
+                                    <li>PAKONSULTA SA TINAE ,TUNGOL, ATAY UG APDO (PERO DILI MANGOPERAHAY) PARA ENDOSCOPY/COLONOSCOPY</li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li><strong>Consultation Schedule</strong></li> <br>
+                                    <li>Days: Mon, Tue, Wed, Thu, Fri</li>
+                                    <li>Opening Time: 2:00 pm</li>
+                                    <li>Closing Time: 4:00 pm</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Modal -->
+                <form id="addAppointmentForm">
                     <div class="modal" id="appointmentModal">
                         <div class="modal-content">
                             <span class="close" onclick="closeModal()">&times;</span>
 
                             <!-- Patient Information -->
                             <div class="modal-step" id="step1">
+                                <input type="hidden" id="patientId" name="patientId" value="">
+
                                 <h2>Patient Information</h2>
 
                                 <div class="progress-bar-container">
@@ -214,10 +536,13 @@ include '../../php/connection.php';
                                 </div>
 
 
+
+
                                 <!-- Left Side -->
                                 <div class="left-side">
                                     <label for="firstName">First Name</label>
                                     <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+
 
                                     <label for="lastName">Last Name</label>
                                     <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
@@ -233,8 +558,7 @@ include '../../php/connection.php';
                                     </select>
 
                                     <label for="dob">Date of Birth</label>
-                                    <input type="date" id="dob" name="dob" required>
-
+                                    <input type="date" id="dob" name="dob" value="<?php echo date('Y-m-d'); ?>" required>
                                     <label for="civilStatus">Civil Status</label>
                                     <select id="civilStatus" name="civilStatus" required>
                                         <option value="Single">Single</option>
@@ -389,36 +713,172 @@ include '../../php/connection.php';
                                         <div class="progress-step" id="progress4">4</div>
                                     </div>
                                 </div>
-                                <!-- Choose Category and Date -->
+
+                                <div class="appNote"> Please take note of the available schedule for consultation in each department:
+                                </div>
+
+                                <!-- Inside your modal content -->
+                                <table class="department-sched-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Department</th>
+                                            <th>Consultation Schedule</th>
+                                            <th>Opening Time</th>
+                                            <th>Closing Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>CECAP</td>
+                                            <td>Mon, Tue, Thu</td>
+                                            <td>8:00 am</td>
+                                            <td>11:00 am</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>DENTAL</td>
+                                            <td>Please call 09876543212</td>
+                                            <td>No data available</td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>ENT-HNS (EAR,NOSE,THROAT-HEAD AND NECK SURGERY)</td>
+                                            <td>Mon, Wed, Thu, Fri</td>
+                                            <td>8:00 am</td>
+                                            <td>3:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>FAMILY MEDICINE</td>
+                                            <td>Mon, Tue, Wed, Thu, Fri</td>
+                                            <td>8:00 am</td>
+                                            <td>12:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>GENERAL SURGERY</td>
+                                            <td>Mon, Tue, Fri</td>
+                                            <td>8:00 am</td>
+                                            <td>12:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>GYNE</td>
+                                            <td>Mon, Wed, Fri</td>
+                                            <td>8:00 am</td>
+                                            <td>7:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>NEUROSURGERY</td>
+                                            <td>Wed, Thu</td>
+                                            <td>1:00 pm</td>
+                                            <td>3:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>INTERNAL MEDICINE (GENERAL)</td>
+                                            <td>Mon, Wed, Thu</td>
+                                            <td>8:00 am</td>
+                                            <td>11:00 am</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>OB (PREGNANT/BUNTIS ONLY)</td>
+                                            <td>Mon, Tue, Thu, Fri</td>
+                                            <td>8:00 am</td>
+                                            <td>7:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>OPHTHALMOLOGY/EYE CENTER</td>
+                                            <td>Please call 09086339835</td>
+                                            <td>No data available</td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>ORTHOPEDICS</td>
+                                            <td>Wed, Thu</td>
+                                            <td>8:00 am</td>
+                                            <td>4:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>PEDIA (GENERAL)</td>
+                                            <td>Mon, Wed, Thu</td>
+                                            <td>8:00 am</td>
+                                            <td>11:00 am</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>PRIMARY CARE</td>
+                                            <td>Mon, Wed, Thu</td>
+                                            <td>1:00 pm</td>
+                                            <td>3:00 pm</td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>UROLOGY</td>
+                                            <td>Tue, Fri</td>
+                                            <td>3:00 pm</td>
+                                            <td>5:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>ANIMAL BITES TREATMENT CENTER</td>
+                                            <td>Mon, Thu, Fri</td>
+                                            <td>8:00 am</td>
+                                            <td>4:00 pm</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>GASTROENTEROLOGY</td>
+                                            <td>Mon, Tue, Wed, Thu, Fri</td>
+                                            <td>2:00 pm</td>
+                                            <td>4:00 pm</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+
+
                                 <div class="left-side">
-                                    <label for="category">Choose a Category</label>
+                                    <label for="category" class="cat">Choose a Category</label>
                                     <select id="category" name="category" required>
-                                        <!-- Add your category options here -->
-                                        <option value="Category1">Category 1</option>
-                                        <option value="Category2">Category 2</option>
-                                        <option value="Category3">Category 3</option>
+                                        <?php include '../../php/get_category.php'; ?>
                                     </select>
+
+                                    <label for="time">Choose Time</label>
+                                    <input type="time" id="time" name="time" placeholder="Time" required>
+
 
                                 </div>
 
                                 <div class="right-side">
 
-                                    <label for="appointmentDate">Choose Date</label>
-                                    <input type="date" id="appointmentDate" name="appointmentDate" required>
+                                    <label for="appointmentDate" class="date">Choose Date</label>
+                                    <input type="date" id="appointmentDate" name="appointmentDate" value="<?php echo date('Y-m-d'); ?>" required>
+
                                 </div>
 
 
                                 <!-- Full Width Chief Complaint Text Area -->
                                 <label for="chiefComplaint">Chief Complaint</label>
-                                <textarea id="chiefComplaint" name="chiefComplaint" rows="4" placeholder="State here the problem or symptoms you are experiencing and you want to be consulted.(Unsay imong gipamati/ ganahan ipakonsulta sa imong lawas)" required></textarea>
+                                <textarea id="chiefComplaint" name="chiefComplaint" rows="4" placeholder="State here the problem or symptoms you are experiencing and you want to be consulted.(Unsay imong gipamati/ ganahan ipakonsulta sa imong lawas)"></textarea>
+                                
 
+                                <span id="error-message"></span>
                                 <!-- Previous and Submit Buttons with Icons -->
                                 <div class="button-container">
                                     <button class="prev-button" onclick="prevStep()">
                                         <ion-icon name="arrow-back-outline"></ion-icon> Previous
                                     </button>
 
-                                    <button class="submit-button" onclick="openConfirmationModal()">
+                                    <button class="submit-button">
                                         Submit
                                     </button>
                                 </div>
@@ -450,8 +910,6 @@ include '../../php/connection.php';
         </div>
     </div>
 
-
-
     <div id="loader" class="loader"></div>
     <div id="successModal" class="success-modal">
         <div class="modal-content">
@@ -459,28 +917,43 @@ include '../../php/connection.php';
             <div style="text-align: center;">
                 <img src="../../imgs/success.png" alt="Check Icon">
                 <h2>Thank you for trusting Cebu Medical Care</h2>
-                <p>Your appointment has been successfully created. Please arrive 10 minutes prior to your scheduled date
-                    and time.</p>
+                <p>Your appointment has been successfully created. Please go to the My Appointments Tab page to track the status of your appointment. </p>
 
                 <div class="booking-details">
-                    <h3>Queue Number</h3>
-                    <p style="font-weight: bold;" id="queueNumber">A001</p>
-                    <p style="margin-top: 10px;">Patient Name: <span id="patientName">John Doe</span></p>
-                    <p>Appointment Date: <span id="appointmentDate">12/15/2023</span></p><br>
-
-                    <p class="note">Note: Wear face mask and observe 1 meter distance. To check your status, go
-                        to your My Appointments Tab.</p>
-                </div>
+                    <h1 style="font-weight: bold;" id="queueNumber"></h1>
+                    <h2>Queue Number</h2>
+                    <p style="margin-top: 10px; font-size:18px;">Patient Name: <span id="patientName"  style="font-size:18px;"></span></p>
+                    <p style="margin-top: 10px; font-size:18px;">Department: <span id="categ"  style="font-size:18px;"></span></p>
+                    <p style="margin-top: 10px;font-size:18px;">Appointment Date: <span id="scheduledDate" style="font-size:18px;"></span></p><br>
 
 
+                    <p class="note">
+    Please make your consultation experience smoother:
+    <br>
+    <strong>1. Arrival Time:</strong> Aim to arrive 15 minutes before your scheduled consultation.<br>
+    <strong>2. Queue Number:</strong> Remember to present your queue number. <br>
+    <strong>3. Safety First:</strong> Wear a face mask for everyone's safety.<br>
+    <strong>4. Social Distancing:</strong> Observe a distance of at least 1 meter.<br>
+</p>
             </div>
-            <div style="text-align: center; margin-top: 20px;">
+            </div>
+
+            <div class="success-button-container">
                 <button class="cancel-button" onclick="closeSuccessModal()">Close</button>
-                <button class="print-button" onclick="printSuccessModal()">Print</button>
+
+                <div class="dropdown-container">
+                    <div class="dropdown-content">
+                        <a href="#" class="dropdown-option" onclick="downloadOptionSelected('image')">Save as Image</a>
+                        <a href="#" class="dropdown-option" onclick="downloadOptionSelected('print')">Print</a>
+                    </div>
+                    <button class="dropdown-button">Download</button>
+
+                </div>
             </div>
+
+
         </div>
     </div>
-
 
 
     <!-- Viewing Appointment Details Modal -->
@@ -490,30 +963,19 @@ include '../../php/connection.php';
             <span class="close" onclick="closeViewAppointmentModal()">&times;</span>
             <h2>Appointment Details</h2>
             <div id="viewAppointmentModalBody">
-                <!-- Placeholder data -->
-                <!-- <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Date of Birth:</strong> 01/01/1990</p>
-                <p><strong>Cellphone Number:</strong> +1234567890</p>
-                <p><strong>Queue No.:</strong> Q123</p>
-                <p><strong>Category:</strong> Checkup</p>
-                <p><strong>Appointment Date:</strong> 2023-12-01 10:00 AM</p>
-                <p><strong>Chief Complaint:</strong> Placeholder chief complaint</p>
-                <p><strong>Status:</strong> Scheduled</p> -->
             </div>
         </div>
     </div>
 
-
-
-
-
     <!-- Add Dependent Modal -->
     <div class="modal" id="addDependentModal">
         <div class="modal-content-dependent">
-            <span class="close" onclick="closeAddDependentModal()">&times;</span>
+            <span class="close" onclick="closeModal()">&times;</span>
 
             <!-- Form Content Here -->
-            <form id="addDependentForm" method="post" action="../../php/add_dependents.php">
+            <!-- <form id="addDependentForm" method="post" action="../../php/add_dependents.php"> -->
+            <form id="addDependentForm" method="post" onsubmit="addDependents(event)">
+
                 <!-- Step 1: Patient Information -->
                 <div class="modal-step">
 
@@ -522,7 +984,7 @@ include '../../php/connection.php';
                     <!-- Left Side -->
                     <div class="left-side">
                         <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name">
 
                         <label for="lastName">Last Name</label>
                         <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
@@ -539,7 +1001,7 @@ include '../../php/connection.php';
                         </select>
 
                         <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" value="<?php echo date('Y-m-d'); ?>" required>
+                        <input type="date" id="dob" name="dob" placeholder="dd-mm-yyyy<?php echo date('Y-m-d'); ?>" required>
 
 
                         <label for="civilStatus">Civil Status</label>
@@ -551,7 +1013,6 @@ include '../../php/connection.php';
                         </select>
                     </div>
 
-                    <!-- Right Side -->
                     <div class="right-side">
                         <label for="sex">Sex</label>
                         <select id="sex" name="sex" required>
@@ -575,7 +1036,6 @@ include '../../php/connection.php';
 
                     <hr>
 
-                    <!-- Step 2: Address Information -->
                     <div class="modal-step">
                         <h2>Address Information</h2>
 
@@ -605,7 +1065,6 @@ include '../../php/connection.php';
 
                         <hr>
 
-                        <!-- Step 3: Family Background -->
                         <div class="modal-step">
                             <h2>Family Background</h2>
                             <!-- Left Side -->
@@ -625,8 +1084,12 @@ include '../../php/connection.php';
                                 <label for="motherMaidenName">Mother Maiden Name</label>
                                 <input type="text" id="motherMaidenName" name="motherMaidenName" placeholder="Mother Maiden Name" required>
                             </div>
+                            <!-- Error Message Div -->
+                            <span id="error-message-div"></span>
 
-                            <!-- Submit Button -->
+
+
+
                             <div class="button-container">
                                 <button class="dependent-submit-button" type="submit">
                                     Add Dependent
@@ -636,17 +1099,11 @@ include '../../php/connection.php';
         </div>
     </div>
 
-
-
-
     <!-- =========== Scripts =========  -->
     <script src="../../js/main.js"></script>
     <script src="../../js/modal.js"></script>
     <script src="../../js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    </script>
-
 
 </body>
 
