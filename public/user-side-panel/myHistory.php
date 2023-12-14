@@ -142,41 +142,39 @@ if (!isset($_SESSION["user_email"])) {
 
                 </span>
 
-
-                
                 <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search...">
-        <button id="searchButton">
-            <ion-icon name="search-outline"></ion-icon>
-        </button>
-            </div>
-            <div class="history-page">
-                <!-- ================ My appointments Table Section ================= -->
-                <div class="history-table">
-                    <table id="myHistoryTable">
-                        <thead>
-                            <tr>
-                                <td>Patient Name</td>
-                                <td>Category</td>
-                                <td>Scheduled Date</td>
-                                <td>Status</td>
+                    <input type="text" id="searchInput" placeholder="Search...">
+                    <button id="searchButton">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                </div>
+                <div class="history-page">
+                    <!-- ================ My appointments Table Section ================= -->
+                    <div class="history-table">
+                        <table id="myHistoryTable">
+                            <thead>
+                                <tr>
+                                    <td>Patient Name</td>
+                                    <td>Category</td>
+                                    <td>Scheduled Date</td>
+                                    <td>Status</td>
 
-                            </tr>
-                        </thead>
+                                </tr>
+                            </thead>
 
-                        <tbody>
+                            <tbody>
 
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
 
 
             </div>
-
-
         </div>
-    </div>
     </div>
 
     <!-- =========== Scripts =========  -->
