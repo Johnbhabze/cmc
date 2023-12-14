@@ -1,3 +1,8 @@
+<?php
+include '../../php/connection.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,17 +14,17 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script type="text/javascript" src="../js/authentication.js"></script>
-    <link rel="icon" type="image/x-icon" href="../imgs/favicon.ico">
+    <!-- <script src="../js/authentication.js"></script> -->
+    <link rel="icon" type="image/x-icon" href="../../imgs/favicon.ico">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/myAppointments.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/myAppointments.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 </head>
@@ -33,7 +38,7 @@
                 <li>
                     <a href="user_dashboard.php">
                         <div class="logo">
-                            <img src="../imgs/sidebarlogo.png" alt="">
+                            <img src="../../imgs/logo(2).png" alt="">
                         </div>
                     </a>
                 </li>
@@ -95,36 +100,22 @@
                 </div>
 
                 <div class="user-dropdown">
-                <div class="user">
-                        <?php
-                            if($_SESSION['sex'] === 'male'){
-                                echo '<img src="../imgs/male.png" alt="user-male">';
-                            }else {
-                                echo  '<img src="../imgs/female.png" alt="user-female">';
-                            }
-                        ?>
+                    <div class="user">
+                        <img src="../../imgs/user.png" alt="">
                         <div class="user-info">
-                            <p class="user-name">
-                                <?php
-                                    echo $_SESSION['user_name'];
-                                ?>
-                            </p>
-                            <p class="user-email">
-                                <?php
-                                    echo $_SESSION['user_email'];
-                                ?>
-                            </p>
+                            <p class="user-name">Angelica Dy</p>
+                            <p class="user-email">angelica.dy@gmail.com</p>
                         </div>
                     </div>
 
                     <div class="dropdown-content">
-                        <a href="#" class="appointments">
+                        <a href="myAppointments.php" class="appointments">
                             <ion-icon class="icon" name="calendar-outline"></ion-icon> My Appointments
                         </a>
-                        <a href="#" class="slots">
+                        <a href="availableSlots.php" class="slots">
                             <ion-icon class="icon" name="time-outline"></ion-icon> Available Slots
                         </a>
-                        <a href="#" class="history">
+                        <a href="myHistory.php" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> My History
                         </a>
                         <a href="#" class="logout">
@@ -157,6 +148,9 @@
 
                     <!-- Dependent Details Section -->
                     <div class="dependent-details">
+                      
+
+
                         <div class="dependent-card">
                             <p>Name: Angelica Dy</p>
                             <p>Age: 25</p>
@@ -169,10 +163,9 @@
                             <p>Age: 30</p>
                             <p>Sex: Female</p>
                             <button class="btn make-appointment-btn">Make Appointment</button>
-                        </div>
+                        </div> 
                     </div>
                 </div>
-
 
 
                 <!-- ================ My appointments Table Section ================= -->
@@ -191,92 +184,9 @@
                         </thead>
 
                         <tbody>
-                            <!-- Placeholder Data -->
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>Scheduled</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i> View</button></td>
 
 
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i></i> View</button></td>
-
-
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>Scheduled</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i></i> View</button></td>
-
-
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i></i> View</button></td>
-
-
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>Scheduled</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i></i> View</button></td>
-
-
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i></i> View</button></td>
-
-
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Checkup</td>
-                                <td>2023-12-01 10:00 AM</td>
-                                <td>Scheduled</td>
-                                <td><button class="view-button" onclick=""><i class="fa-regular fa-eye"></i></i>
-                                        View</button></td>
-
-
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Follow-up</td>
-                                <td>2023-12-02 02:30 PM</td>
-                                <td>In Progress</td>
-                                <td><button class="view-button" onclick="viewAppointment()"><i
-                                            class="fa-regular fa-eye"></i></i> View</button></td>
-
-
-                            </tr>
-
-
-
-
-                        </tbody>
+                      </tbody>
                     </table>
                 </div>
 
@@ -307,8 +217,7 @@
                                 <!-- Left Side -->
                                 <div class="left-side">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" name="firstName" placeholder="First Name"
-                                        required>
+                                    <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
 
                                     <label for="lastName">Last Name</label>
                                     <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
@@ -347,16 +256,13 @@
                                     <input type="text" id="religion" name="religion" placeholder="Religion" required>
 
                                     <label for="nationality">Nationality</label>
-                                    <input type="text" id="nationality" name="nationality" placeholder="Nationality"
-                                        required>
+                                    <input type="text" id="nationality" name="nationality" placeholder="Nationality" required>
 
                                     <label for="occupation">Occupation</label>
-                                    <input type="text" id="occupation" name="occupation" placeholder="Occupation"
-                                        required>
+                                    <input type="text" id="occupation" name="occupation" placeholder="Occupation" required>
 
                                     <label for="cellphoneNumber">Cellphone Number</label>
-                                    <input type="tel" id="cellphoneNumber" name="cellphoneNumber"
-                                        placeholder="Cellphone Number" required>
+                                    <input type="tel" id="cellphoneNumber" name="cellphoneNumber" placeholder="Cellphone Number" required>
                                 </div>
 
 
@@ -387,8 +293,7 @@
                                 <!-- Left Side -->
                                 <div class="left-side">
                                     <label for="houseLotNo">House/ Lot No.</label>
-                                    <input type="text" id="houseLotNo" name="houseLotNo" placeholder="House/ Lot No."
-                                        required>
+                                    <input type="text" id="houseLotNo" name="houseLotNo" placeholder="House/ Lot No." required>
 
                                     <label for="street">Street</label>
                                     <input type="text" id="street" name="street" placeholder="Street" required>
@@ -406,8 +311,7 @@
                                     <input type="text" id="barangay" name="barangay" placeholder="Barangay" required>
 
                                     <label for="postalCode">Postal Code</label>
-                                    <input type="text" id="postalCode" name="postalCode" placeholder="Postal Code"
-                                        required>
+                                    <input type="text" id="postalCode" name="postalCode" placeholder="Postal Code" required>
                                 </div>
 
                                 <!-- Previous and Next Buttons with Icons -->
@@ -445,19 +349,16 @@
                                     <input type="text" id="spouseName" name="spouseName" placeholder="Spouse Name">
 
                                     <label for="spouseAddress">Spouse Address</label>
-                                    <input type="text" id="spouseAddress" name="spouseAddress"
-                                        placeholder="Spouse Address">
+                                    <input type="text" id="spouseAddress" name="spouseAddress" placeholder="Spouse Address">
                                 </div>
 
                                 <!-- Right Side -->
                                 <div class="right-side">
                                     <label for="fathersName">Father's Name</label>
-                                    <input type="text" id="fathersName" name="fathersName" placeholder="Father's Name"
-                                        required>
+                                    <input type="text" id="fathersName" name="fathersName" placeholder="Father's Name" required>
 
                                     <label for="motherMaidenName">Mother Maiden Name</label>
-                                    <input type="text" id="motherMaidenName" name="motherMaidenName"
-                                        placeholder="Mother Maiden Name" required>
+                                    <input type="text" id="motherMaidenName" name="motherMaidenName" placeholder="Mother Maiden Name" required>
                                 </div>
 
                                 <!-- Previous and Next Buttons with Icons -->
@@ -509,9 +410,7 @@
 
                                 <!-- Full Width Chief Complaint Text Area -->
                                 <label for="chiefComplaint">Chief Complaint</label>
-                                <textarea id="chiefComplaint" name="chiefComplaint" rows="4"
-                                    placeholder="State here the problem or symptoms you are experiencing and you want to be consulted.(Unsay imong gipamati/ ganahan ipakonsulta sa imong lawas)"
-                                    required></textarea>
+                                <textarea id="chiefComplaint" name="chiefComplaint" rows="4" placeholder="State here the problem or symptoms you are experiencing and you want to be consulted.(Unsay imong gipamati/ ganahan ipakonsulta sa imong lawas)" required></textarea>
 
                                 <!-- Previous and Submit Buttons with Icons -->
                                 <div class="button-container">
@@ -592,14 +491,14 @@
             <h2>Appointment Details</h2>
             <div id="viewAppointmentModalBody">
                 <!-- Placeholder data -->
-                <p><strong>Name:</strong> John Doe</p>
+                <!-- <p><strong>Name:</strong> John Doe</p>
                 <p><strong>Date of Birth:</strong> 01/01/1990</p>
                 <p><strong>Cellphone Number:</strong> +1234567890</p>
                 <p><strong>Queue No.:</strong> Q123</p>
                 <p><strong>Category:</strong> Checkup</p>
                 <p><strong>Appointment Date:</strong> 2023-12-01 10:00 AM</p>
                 <p><strong>Chief Complaint:</strong> Placeholder chief complaint</p>
-                <p><strong>Status:</strong> Scheduled</p>
+                <p><strong>Status:</strong> Scheduled</p> -->
             </div>
         </div>
     </div>
@@ -614,7 +513,7 @@
             <span class="close" onclick="closeAddDependentModal()">&times;</span>
 
             <!-- Form Content Here -->
-            <form id="addDependentForm" onsubmit="submitAddDependentForm(event)">
+            <form id="addDependentForm" method="post" action="../../php/add_dependents.php">
                 <!-- Step 1: Patient Information -->
                 <div class="modal-step">
 
@@ -640,7 +539,8 @@
                         </select>
 
                         <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" required>
+                        <input type="date" id="dob" name="dob" value="<?php echo date('Y-m-d'); ?>" required>
+
 
                         <label for="civilStatus">Civil Status</label>
                         <select id="civilStatus" name="civilStatus" required>
@@ -669,8 +569,7 @@
                         <input type="text" id="occupation" name="occupation" placeholder="Occupation" required>
 
                         <label for="cellphoneNumber">Cellphone Number</label>
-                        <input type="tel" id="cellphoneNumber" name="cellphoneNumber" placeholder="Cellphone Number"
-                            required>
+                        <input type="tel" id="cellphoneNumber" name="cellphoneNumber" placeholder="Cellphone Number" required>
 
                     </div>
 
@@ -721,17 +620,15 @@
                             <!-- Right Side -->
                             <div class="right-side">
                                 <label for="fathersName">Father's Name</label>
-                                <input type="text" id="fathersName" name="fathersName" placeholder="Father's Name"
-                                    required>
+                                <input type="text" id="fathersName" name="fathersName" placeholder="Father's Name" required>
 
                                 <label for="motherMaidenName">Mother Maiden Name</label>
-                                <input type="text" id="motherMaidenName" name="motherMaidenName"
-                                    placeholder="Mother Maiden Name" required>
+                                <input type="text" id="motherMaidenName" name="motherMaidenName" placeholder="Mother Maiden Name" required>
                             </div>
 
                             <!-- Submit Button -->
                             <div class="button-container">
-                                <button class="dependent-submit-button" onclick="submitAddDependentForm()">
+                                <button class="dependent-submit-button" type="submit">
                                     Add Dependent
                                 </button>
                             </div>
@@ -743,15 +640,12 @@
 
 
     <!-- =========== Scripts =========  -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/modal.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/modal.js"></script>
+    <script src="../../js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-
-
-
+    </script>
 
 
 </body>
