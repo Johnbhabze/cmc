@@ -103,6 +103,7 @@ $(document).ready(function () {
 
 
 
+
 $(document).ready(function () {
     $('.make-appointment-btn').click(function () {
         var patientId = $(this).data('patient-id');
@@ -227,3 +228,132 @@ function closeConfirmationModal() {
     closeAppModal.style.display = 'none';
 }
 
+
+// Function to handle the confirmation and submit the form
+function confirmSubmit() {
+    $.ajax({
+        url: '../../php/insert_appointment.php',
+        type: 'POST',
+        data: $('#addAppointmentForm').serialize(),
+        success: function (response) {
+            closeConfirmationModal();
+            showSuccessModal(response);
+        },
+        error: function () {
+            alert('Error adding appointment');
+        }
+    });
+}
+
+// Function to open the success modal
+function showSuccessModal(response) {
+    document.getElementById('loader').style.display = 'block';
+
+    setTimeout(function () {
+        // Hide the loader
+        document.getElementById('loader').style.display = 'none';
+        var responseData = JSON.parse(response);
+        console.log(responseData)
+
+        // Display patient details in the success modal
+        $('#queueNumber').text(responseData.queueNumber);
+        $('#categ').text(responseData.category);
+        $('#patientName').text(responseData.patientName);
+        $('#scheduledDate').text(responseData.appointmentDate); 
+        document.getElementById('successModal').style.display = 'block';
+    }, 1000);
+}
+
+
+// Function to close the success modal
+function closeSuccessModal() {
+    var successModal = document.getElementById('successModal');
+    successModal.style.display = 'none';
+}
+
+$('.cancel-button').on('click', function () {
+    closeSuccessModal();
+});
+
+
+//Downlaoding success modal as image for reference
+function downloadAsImage() {
+    // var dropdownButton = document.querySelector('.dropdown-button');
+    // dropdownButton.style.display = 'none';
+    // var cancelButton = document.querySelector('.cancel-button');
+    // cancelButton.style.display = 'none';
+    var modalContent = document.querySelector('.success-modal');
+    html2canvas(modalContent).then(function (canvas) {
+        var imageData = canvas.toDataURL('image/png');
+        var downloadLink = document.createElement('a');
+        downloadLink.href = imageData;
+        downloadLink.download = 'appointment_details.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
+}
+
+
+function printSuccessModal() {
+    window.print();
+}
+
+function downloadOptionSelected(option) {
+    if (option === "image") {
+        downloadAsImage();
+    } else if (option === "print") {
+        printSuccessModal();
+    }
+}
+
+
+
+function saveAsImage() {
+    var downloadButton = document.querySelector('.download-button');
+
+    downloadButton.style.display = 'none';
+    var modalContent = document.getElementById('viewAppointmentModalBody');
+
+    html2canvas(modalContent).then(function (canvas) {
+        var imageData = canvas.toDataURL('image/png');
+        var downloadLink = document.createElement('a');
+        downloadLink.href = imageData;
+        downloadLink.download = 'appointment_details.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        downloadButton.style.display = 'block';
+    });
+}
+
+
+
+
+//adding dependents function
+function addDependents(event) {
+    event.preventDefault(); 
+
+    var data = $("#addDependentForm").serialize();
+    $.ajax({
+        type: "POST",
+        url: "../../php/adding_dependents.php",
+        data: data,
+        dataType: 'json',  
+        success: function (response) {
+            console.log(response);
+            console.log(response.message);
+            
+            if (response.status === 200) {            
+                window.location.href = "../user-side-panel/myAppointments.php";
+            } else {
+                $("#error-message-div").html(response.error_message);
+            }
+        },
+        error: function () {
+            // Handle AJAX error
+            $("#error-message-div").html("An error occurred during the request.");
+        }
+    });
+}
