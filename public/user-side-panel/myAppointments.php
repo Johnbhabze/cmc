@@ -1104,6 +1104,36 @@ if (!isset($_SESSION["user_email"])) {
     <script src="../../js/modal.js"></script>
     <script src="../../js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('.view-button').click(function() {
+                var appointmentId = $(this).data('id');
+
+                // Perform AJAX request
+                $.ajax({
+                    url: '../../php/viewAppointmentModal.php',
+                    type: 'GET',
+                    data: {
+                        appointmentId: appointmentId
+                    },
+                    success: function(response) {
+                        $('#viewAppointmentModalBody').html(response);
+                        $('#viewAppointmentDetailsModal').modal('show');
+                    },
+                    error: function() {
+                        alert('Error fetching appointment details');
+                    }
+                });
+            });
+        });
+
+        function closeViewAppointmentModal() {
+            // Hide the modal
+            $('#viewAppointmentDetailsModal').modal('hide');
+        }
+    </script>
+
+    <script src="../../js/authentication.js"></script>
 
 </body>
 
