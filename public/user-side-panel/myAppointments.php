@@ -171,7 +171,7 @@ if (!isset($_SESSION["user_email"])) {
 
                     <!-- Dependent Details Section -->
                     <div class="dependent-details">
-                       
+                        <?php include '../../php/get_dependent_details.php'; ?>
                     </div>
                 </div>
 
