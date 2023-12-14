@@ -50,7 +50,7 @@ if (!isset($_SESSION["user_email"])) {
                 <li>
                     <a href="user_dashboard.php">
                         <div class="logo">
-                            <img src="../../imgs/logo(2).png" alt="">
+                            <img src="../../imgs/sidebarlogo.png" alt="">
                         </div>
                     </a>
                 </li>
