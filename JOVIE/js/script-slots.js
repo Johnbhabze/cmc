@@ -48,7 +48,7 @@ function createCalendar(date) {
             cell.setAttribute('data-date', formattedDate(currentDate, { year: 'numeric', month: '2-digit', day: '2-digit' }));
             const slotIndicator = document.createElement('div');
             slotIndicator.classList = "allocation";
-            slotIndicator.setAttribute('window.onload', 'fetchslots(\'' + cell.getAttribute("data-date") + '\')');
+            fetchslots(cell.getAttribute("data-date"));
             console.log(slotIndicator);
 
             if (isSameDate(currentDate, new Date())) {
@@ -72,7 +72,7 @@ function createCalendar(date) {
             cell.setAttribute('data-date', formattedDate(currentDate, { year: 'numeric', month: '2-digit', day: '2-digit' }));
             const slotIndicator = document.createElement('div');
             slotIndicator.classList = "allocation";
-            slotIndicator.setAttribute('window.onload', 'fetchslots(\'' + cell.getAttribute("data-date") + '\')');
+            fetchslots(cell.getAttribute("data-date"));
             console.log(slotIndicator);
 
             if (isSameDate(currentDate, new Date())) {
@@ -89,19 +89,6 @@ function createCalendar(date) {
     table.appendChild(tbody);
     calendarContainer.appendChild(table);
 
-    const cells = document.querySelectorAll('td[data-date]');
-
-    cells.forEach(cell => {
-        const allocation = cell.getAttribute('data-date');
-
-        cell.addEventListener('mouseover', () => {
-            fetchslots(allocation);
-        });
-
-        cell.addEventListener('mouseleave', () => {
-            resetAllocation(cell);
-        });
-    });
 }
 
 function handleCellClick(date) {
@@ -136,7 +123,6 @@ function isSameDate(date1, date2) {
     );
 }
 
-
 // Function to fetch slots information
 function fetchslots(allocation) {
     $.ajax({
@@ -168,14 +154,3 @@ function fetchslots(allocation) {
         }
     });
 }
-
-
-window.onload = function () {
-    const cells = document.querySelectorAll('td[data-date]');
-
-    cells.forEach(cell => {
-        const allocation = cell.getAttribute('data-date');
-        fetchslots(allocation);
-    });
-
-};
