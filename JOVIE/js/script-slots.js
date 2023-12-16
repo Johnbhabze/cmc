@@ -150,7 +150,7 @@ function fetchslots(allocation) {
                 const allocationContainer = document.querySelector(`td[data-date="${allocation}"] .allocation`);
 
                 if (dateHere == allocation && allocationContainer) {
-                    allocationContainer.textContent = "Booked: " + allocated.slotsTaken + " out of 10";
+                    allocationContainer.textContent = allocated.slotsTaken + "/10";
 
                     const value = parseInt(allocated.slotsTaken, 10);
                     const backgroundColor = value >= 10 ? '#963d3d' : '#2e9254';
