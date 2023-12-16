@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/style-patientInfo.css">
+
+</head>
+<body>
+    <div id="patientContainer">
+        <br> Patient's Information
+        <br><hr><br> 
+        <table>
+            <tr id="widthScale">
+                <td><span id="appointmentID" name="appointmentID"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+                <tr>
+                <td colspan="2">Queue No.</td>
+                <td colspan="4"> : <span class="patientDetails" id="patientQueue" name="patientQueue"></span></td>
+                <td colspan="2">Patient ID.</td>
+                <td colspan="2"> : <span class="patientID" id="patientID"></span></td>
+            </tr>
+            <tr>
+                <td colspan="10">Schedule</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Date</td>
+                <td colspan="5"> : <span class="patientDetails" id="patientDate"></span></td>
+                <td>Time</td>
+                <td colspan="3"> : <span class="patientDetails" id="patientTime"></span></td>
+            </tr>
+                <tr>
+                <td></td>
+                
+            </tr>
+            <tr>
+                <td colspan="2">Name</td>
+                <td colspan="9"> : <span class="patientDetails" id="patientName"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Birthdate</td>
+                <td colspan="5"> : <span class="patientDetails" id="patientBirthdate"></td>
+                <td>Sex</td>
+                <td colspan="2"> : <span class="patientDetails" id="patientSex"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Contact Number</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientContact"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Email</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientEmail"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Occupation</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientOccupation"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Nationality</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientNationality"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Religion</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientReligion"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Civil Status</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientStatus"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Address</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientAddress"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Spouse name</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientSpouse"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Spouse address</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientSpouseAdd"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Father's name</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientFather"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Mother's name</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientMother"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Guardian</td>
+                <td colspan="8"> : <span class="patientDetails" id="patientGuardian"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Medical Concern</td>
+                <td colspan="8"> : </td>
+            </tr>
+            <tr>
+                <td colspan="10"><p id="patientConcern"></p></td>
+            </tr>
+        </table>
+        <div id="pMRbuttons">
+            <input type="button" value="Decline" name="decline" class="decline" id="">
+            <input type="button" value="Accept" name="accept" class="accept" id="">
+        </div>
+    </div>
+</body>
+<script src="../../js/script-patientInfo.js"></script>
+</html>
