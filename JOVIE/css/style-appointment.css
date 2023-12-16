@@ -1,0 +1,11 @@
+/* adminAppointmentContainer */
+#adminAppointmentContainer{display: flex; flex-direction: row; justify-content: space-around; padding: 20px; /*border: solid;*/ flex: 1;}
+#adminAppointmentContainer header{font-size: 24px; font-weight: 500; text-align: center; padding-bottom: 20px;}
+.appointmentContainer{padding: 20px; border: 2px solid #A8CF45; background: #FBFEFC; border-radius: 10px; width: 325px; height: 650px; overflow-y: hidden;}
+.clientAppointment{ font-size: 13px; width: 279.93px; margin-bottom: 10px; padding: 5px 15px; line-height: 25px;/* height: 83px;*/ background: #fff; border-radius: 10px; filter: drop-shadow(var(--primary) 3px 1px 2px); /*cursor: move;*/ cursor: grab;}
+.clientAppointment:hover{background: var(--nav);}
+#inProgress,#Completed{overflow-y: auto; overflow-x: hidden;}
+
+@media (max-width:1700px) {
+    #patientModal{margin-top:30%;}
+}

@@ -1,0 +1,28 @@
+#patientContainer{width: 100%; height: 100%;} 
+#patientModal{background: #F2F2F2; width: 800px; border-radius: 10px; position: absolute; filter: drop-shadow(var(--background_opaque1) 0 4px 4px); display: flex; flex-direction: row; padding-bottom: 20PX;}
+#pMLeft, #pMRight{width: 50%; height: 95%; padding-inline: 20px; padding-top: 20px; line-height: 20px;}
+#btnXContainer{position: relative; height: 55px;}
+#btnX{line-height: 40px; font-family: Poppins; background: #D9D9D9; position: absolute; width:fit-content; right: 0px;padding: 3px 14.5px;font-size: xx-large;color: #868686; cursor: pointer; transition: 0.6s ease-in-out; border-radius: 50%;}
+#btnX:hover{background: #aaaaaa; color: #fff; transform: rotate(-180deg);}
+#pMRightConcern{background: #E8E8E8; width: 90%; height: 275px; border-radius: 7px; margin: 10px;}
+#pMRbuttons{text-align: right; padding-right: 20px; margin-top: 40px;}
+#pMRbuttons input{cursor: pointer; border: transparent; font-weight: 100; color:#fff; border-radius: 4px; width: 70px; height: 40px;}
+.decline{background: #B94C4C;}
+.accept{background: #3DBF6E;}
+#patientName{color: red;}
+#patientBirthdate{margin-right: 50px;}
+.decline:hover{background: #963d3d;}
+.accept:hover{background: #2e9254;}
+.patientDetails{font-weight: 300; font-size: 14px;}
+#patientDate{text-indent: 200px;}
+#patientConcern{ text-transform: lowercase; padding:3px 30px; overflow-y:auto; max-height: 130px;}
+
+table, td {font-size: 13px;font-weight: 600}
+#widthScale td{ width:25px; height:20px;}
+td{width: 20px;}
+table{width: 100%;}
+table tr td span, table tr td p {font-weight: 300;}
+
+::-webkit-scrollbar {width: 5px;}
+::-webkit-scrollbar-thumb {background: var(--primary); border-radius: 15px;}
+::-webkit-scrollbar-thumb:hover {background: var(--accent);}
