@@ -23,7 +23,7 @@
                     FROM appointments 
                     INNER JOIN patients ON appointments.patient_id = patients.patient_id 
                     WHERE appointments.stat = 'Pending'
-                    -- AND appointments.day = CURRENT_DATE -- remove the comment symbol to execute this line
+                    AND appointments.day = CURRENT_DATE -- remove the comment symbol to execute this line
                     ORDER BY appointments.queue_no";
 
                     include 'query_display.php';
@@ -40,7 +40,7 @@
                     FROM appointments 
                     INNER JOIN patients ON appointments.patient_id = patients.patient_id 
                     WHERE appointments.stat = 'In Progress'
-                    -- AND appointments.day = CURRENT_DATE -- remove the comment symbol to execute this line
+                    AND appointments.day = CURRENT_DATE -- remove the comment symbol to execute this line
                     ORDER BY appointments.queue_no";
 
                     include 'query_display.php';
@@ -57,7 +57,7 @@
                     FROM appointments 
                     INNER JOIN patients ON appointments.patient_id = patients.patient_id 
                     WHERE appointments.stat = 'Completed'
-                    -- AND appointments.day = CURRENT_DATE -- remove the comment symbol to execute this line
+                    AND appointments.day = CURRENT_DATE -- remove the comment symbol to execute this line
                     ORDER BY appointments.queue_no";
 
                     include 'query_display.php';
