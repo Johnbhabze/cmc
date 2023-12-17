@@ -275,6 +275,50 @@ function doneAppointment() {
     });
 }
 
+// <============== DISPLAY LIST OF PENDING APPOINTMENTS IF LOAD ================>
+function fetchPendingAppointments() {
+    $.ajax({
+        url: '../../php/fetch_pending_app.php',
+        method: 'GET',
+        success: function (response) {
+            var appointments = JSON.parse(response);
+            $('#pendingTable tbody').empty();
+            if (appointments.length > 0) {
+                $.each(appointments, function (index, appointment) {
+                    $('#pendingTable tbody').append(
+                        '<tr>' +
+                            '<td>' + appointment.patient_name + '</td>' +
+                            '<td>' + appointment.type + '</td>' +
+                            '<td>' + appointment.schedule + '</td>' +
+                            '<td>' + appointment.status + '</td>' +
+                        '</tr>'
+                    );
+                });
+            } else {
+                $('#pendingTable tbody').append(
+                    '<tr>' + 
+                    '<td colspan= "5" style="text-align:center;">' +
+                        '<p>' + 'No Pending Appointments.' + '</p>'+
+                    '</td>' +
+                    
+                    '</tr>'+
+                    
+                    '<tr>'+
+                    '<td colspan= "5" style="text-align:center;">' +
+                        '<img src="../../imgs/nouser.png" alt="no-user">' + 
+                    '</td>' +
+                '</tr>'
+                );
+            }
+        },
+        // error: function (error) {
+        //     console.log("AJAX Error:", xhr.responseText);
+        //     console.log("Status:", status);
+        //     console.log("Error:", error);
+        // }
+    });
+}
+
 function displayAllPatients() {
     $.ajax({
         url: '../../php/patient_list.php',
