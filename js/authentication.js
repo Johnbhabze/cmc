@@ -75,7 +75,6 @@ function signupSubmit(e){
     e.preventDefault();
 }
 
-
 // <============== SIGNOUT ACCOUNT ================>
 function signoutClick(e){
     var url = '../../php/signout_action.php';
@@ -90,7 +89,6 @@ function signoutClick(e){
         }
     };
 }
-
 
 // <============== DISPLAY LIST OF PENDING APPOINTMENTS IF LOAD ================>
 function fetchPendingAppointments() {
@@ -222,7 +220,7 @@ function nextDayAppointment() {
 
                     '<tr>'+
                         '<td style="text-align:center; width:"100%"">' +
-                            '<p style=font-weight: bold;">' + 'No Pending Appointments next day. All are approved.' + '</p>'+
+                            '<p style=font-weight: bold;">' + 'No Pending Appointments next day.' + '</p>'+
                             '<img src="../../imgs/nouser.png" alt="no-user">' + 
                         '</td>' +
                     '</tr>'
@@ -275,50 +273,6 @@ function doneAppointment() {
     });
 }
 
-// <============== DISPLAY LIST OF PENDING APPOINTMENTS IF LOAD ================>
-function fetchPendingAppointments() {
-    $.ajax({
-        url: '../../php/fetch_pending_app.php',
-        method: 'GET',
-        success: function (response) {
-            var appointments = JSON.parse(response);
-            $('#pendingTable tbody').empty();
-            if (appointments.length > 0) {
-                $.each(appointments, function (index, appointment) {
-                    $('#pendingTable tbody').append(
-                        '<tr>' +
-                            '<td>' + appointment.patient_name + '</td>' +
-                            '<td>' + appointment.type + '</td>' +
-                            '<td>' + appointment.schedule + '</td>' +
-                            '<td>' + appointment.status + '</td>' +
-                        '</tr>'
-                    );
-                });
-            } else {
-                $('#pendingTable tbody').append(
-                    '<tr>' + 
-                    '<td colspan= "5" style="text-align:center;">' +
-                        '<p>' + 'No Pending Appointments.' + '</p>'+
-                    '</td>' +
-                    
-                    '</tr>'+
-                    
-                    '<tr>'+
-                    '<td colspan= "5" style="text-align:center;">' +
-                        '<img src="../../imgs/nouser.png" alt="no-user">' + 
-                    '</td>' +
-                '</tr>'
-                );
-            }
-        },
-        // error: function (error) {
-        //     console.log("AJAX Error:", xhr.responseText);
-        //     console.log("Status:", status);
-        //     console.log("Error:", error);
-        // }
-    });
-}
-
 function displayAllPatients() {
     $.ajax({
         url: '../../php/patient_list.php',
@@ -366,7 +320,6 @@ function displayAllPatients() {
     });
 }
 
-
 // <============= SHOW PASSWORD INTO TEXT ================>
 function togglePasswordVisibility(icon) {
 const passwordInput = icon.previousElementSibling; // Get the previous sibling, which is the input element
@@ -379,7 +332,6 @@ const passwordInput = icon.previousElementSibling; // Get the previous sibling, 
         passwordInput.type = "password";
     }
 }
-
 
 // <============== SHOW EYE IF THE FIELD IS NOT EMPTY ================>
 function input() {
@@ -514,13 +466,123 @@ function input() {
             document.getElementById('delete-modal').dataset.appointmentId = appointmentId;
         }        
 
-
     function closeModal(){
         document.getElementById('editModal').style.display = 'none';
     }
 
+// ========================== SEARCH HISTORY =============================
+    document.addEventListener("DOMContentLoaded", function () {
+        const search = document.getElementById("search-history");
+        const searchHistoryButton = document.getElementById("searchHistoryButton");
+    
+        searchHistoryButton.addEventListener("click", function () {
+            const searchTerm = search.value.trim();
+    
+            $.ajax({
+                type: "POST",
+                url: "../../php/search_patient.php",
+                data: { searchTerm: searchTerm },
+                success: function (response) {
+                    const result = JSON.parse(response);
+                    console.log(response);
+                    tableUpdate(result);
+                },
+                error: function () {
+                    console.error("Error fetching search results.");
+                }
+            });
+        });
+    
+        function tableUpdate(results) {
+            const tableBody = document.querySelector("#doneTable tbody");
+            tableBody.innerHTML = "";
+    
+            if (results.length > 0) {
+                results.forEach(function (result) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${result.patient_name}</td>
+                        <td>${result.type}</td>
+                        <td>${result.schedule}</td>
+                        <td>${result.status}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement("tr");
+                row.innerHTML ='<td colspan="5">' +
+                                '<img src="../../imgs/noresult.png" alt="No Appointments Image">' + 
+                                '</td>';                
+                tableBody.appendChild(row);
+            }
+        }
+    });
 
 
+// ==========================LIST PATIENTS =============================
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchPatient = document.getElementById("search-patient");
+        const searchPatientButton = document.getElementById("searchPatientButton");
+    
+        if (searchPatient && searchPatientButton) {
+            searchPatientButton.addEventListener("click", function () {
+                const searchKey = searchPatient.value.trim();
+    
+                $.ajax({
+                    type: "POST",
+                    url: "../../php/search_lists_patient.php",
+                    data: { searchKey: searchKey },
+                    success: function (response) {
+                        const result = JSON.parse(response);
+                        console.log(result)
+                        updatePatientsList(result);
+                    },
+                    error: function () {
+                        console.error("Error fetching search results.");
+                    }
+                });
+            });
+        } else {
+            console.error("Search elements not found in the document.");
+        }
+    
+        function updatePatientsList(results) {
+            const showAllPatients = document.getElementById("showAllPatients");
+            showAllPatients.innerHTML = "";
+    
+            if (results.length > 0) {
+                results.forEach(function (patient) {
+                    $('#showAllPatients').append(
+                        '<div class="patient-box">' +
+                            '<div class="patient-img">' +
+                                '<div>' +
+                                    '<img src="../../imgs/patient.png" alt="patient">' +
+                                '</div>' +
+                            '</div>' +
 
-
-
+                            '<div class="patient-box-data">' +
+                                '<ul>' +
+                                    '<li>Name: ' + patient.name + '</li>' +
+                                    '<li>Birthdate: ' + patient.birthdate + '</li>' +
+                                    '<li>Sex: ' + patient.sex + '</li>' +
+                                    '<li>Phone: ' + patient.phone + '</li>' +
+                                    '<li>Barangay: ' + patient.barangay + '</li>' +
+                                    '<li>Municipality: ' + patient.municipality + '</li>' +
+                                    '<li>Province: ' + patient.province + '</li>' +
+                                    '<li>Type: ' + patient.type + '</li>' +
+                                '</ul>' +
+                            '</div>' +
+                        '</div>' 
+                    );
+                });
+            } else {
+                showAllPatients.innerHTML = 
+                    '<tr style = "align-items: center">' +
+                        '<td>' + '<center>' +
+                            '<img src="../../imgs/noPatient.png" alt="No Appointments Image">' + 
+                                '</center>'+
+                        '</td>' +
+                    '</tr>';
+            }
+        }
+    });
