@@ -31,68 +31,78 @@ if(!isset($_SESSION["admin_email"])){
 <body>
     <!-- =============== SIDEBAR ================ -->
     <div class="container">
-        <div class="navigation">
-            <ul>
-                <li>
-                    <a href="admin_dashboard.php">
-                        <div class="logo">
-                            <img src="../../imgs/sidebarlogo.png" alt="sidebarlogo">
-                        </div>
-                    </a>
-                </li>
+          <div class="navigation">
+                <ul>
+                    <li>
+                        <a href="admin_dashboard.php">
+                            <div class="logo">
+                                <img src="../../imgs/sidebarlogo.png" alt="sidebarlogo">
+                            </div>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="admin_dashboard.php">
-                        <span class="icon"><ion-icon name="home"></ion-icon></span>
-                        <span class="title">Home</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="admin_dashboard.php">
+                            <span class="icon"><ion-icon name="home"></ion-icon></span>
+                            <span class="title">Home</span>
+                        </a>
+                    </li>
 
-                <li >
-                    <a href="availableAdminSlot.php">
-                        <span class="icon">
-                            <ion-icon name="time-outline"></ion-icon>
-                        </span>
-                        <span class="title">Available Slots</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="availableAdminSlot.php">
+                            <span class="icon">
+                                <ion-icon name="time-outline"></ion-icon>
+                            </span>
+                            <span class="title">Slots</span>
+                        </a>
+                    </li>
 
-                <li>
+                    <li>
                     <a href="pendingAppointment.php">
-                        <span class="icon">
-                            <ion-icon name="calendar-outline"></ion-icon>
-                        </span>
-                        <span class="title">Pending Appointments</span>
-                    </a>
-                </li>
+                            <span class="icon">
+                                <ion-icon name="calendar-outline"></ion-icon>
+                            </span>
+                            <span class="title">Pendings</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="history.php">
-                        <span class="icon">
-                            <ion-icon name="document-text-outline"></ion-icon>
-                        </span>
-                        <span class="title">Catered</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="approvedAppointments.php">
+                            <span class="icon">
+                                <ion-icon name="calendar-outline"></ion-icon>
+                            </span>
+                            <span class="title">Approved</span>
+                        </a>
+                    </li>
 
-                <li style="background-color: #FBF5EE; font-size: 30px">
-                    <a href="users.php">
-                        <span class="icon">
-                        <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Patients</span>
-                    </a>
-                </li>
 
-                <li>
-                    <a onclick="signoutClick(event)" id="logout">
-                        <span class="icon">
-                            <ion-icon name="log-out-outline"></ion-icon>
-                        </span>
-                        <span class="title">Sign Out</span>
-                    </a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="history.php">
+                            <span class="icon">
+                                <ion-icon name="document-text-outline"></ion-icon>
+                            </span>
+                            <span class="title">Catered</span>
+                        </a>
+                    </li>
+
+                    <li style="background-color: #FBF5EE; font-size: 30px">
+                        <a href="users.php">
+                            <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                            </span>
+                            <span class="title">Patients</span>                    
+                        </a>
+                    </li>
+
+                    <li>
+                        <a onclick="signoutClick(event)" id="logout">
+                            <span class="icon">
+                                <ion-icon name="log-out-outline"></ion-icon>
+                            </span>
+                            <span class="title">Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
         </div>
 
         <!-- =========== MAIN ============= -->
@@ -123,9 +133,15 @@ if(!isset($_SESSION["admin_email"])){
                         <a href="pendingAppointment.php" class="appointments">
                             <ion-icon class="icon" name="calendar-outline"></ion-icon> All Pendings
                         </a>
+
                         <a href="availableAdminSlot.php" class="slots">
                             <ion-icon class="icon" name="time-outline"></ion-icon> Available Slots
                         </a>
+
+                        <a href="approvedAppointments.php" class="slots">
+                            <ion-icon class="icon" name="time-outline"></ion-icon> Approved Appoint...
+                        </a>
+
                         <a href="history.php" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> Done Appointments
                         </a>
@@ -146,8 +162,12 @@ if(!isset($_SESSION["admin_email"])){
                         <div class="patient-search">
                             <div class="searchbox">
                                 <input type="search" name="search-patient" id="search-patient" placeholder="Search">
+                                    <button id="searchPatientButton">
+                                        <ion-icon name="search-outline"></ion-icon>
+                                    </button>
                             </div>
                         </div>
+                    </div>
                     </div>
 
                     <div class="patients-div">
