@@ -48,14 +48,14 @@ if (!isset($_SESSION["user_email"])) {
                     </a>
                 </li>
 
-                <!-- <li>
+                <li>
                     <a href="availableSlots.php">
                         <span class="icon">
                             <ion-icon name="time-outline"></ion-icon>
                         </span>
                         <span class="title">Available Slots</span>
                     </a>
-                </li> -->
+                </li>
 
                 <li>
                     <a href="myAppointments.php">
@@ -123,9 +123,9 @@ if (!isset($_SESSION["user_email"])) {
                         <a href="myAppointments.php" class="appointments">
                             <ion-icon class="icon" name="calendar-outline"></ion-icon> My Appointments
                         </a>
-                        <!-- <a href="availableSlots.php" class="slots">
+                        <a href="availableSlots.php" class="slots">
                             <ion-icon class="icon" name="time-outline"></ion-icon> Available Slots
-                        </a> -->
+                        </a>
                         <a href="myHistory.php" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> My History
                         </a>
@@ -158,7 +158,7 @@ if (!isset($_SESSION["user_email"])) {
                             <tr>
                                 <td>Patient Name</td>
                                 <td>Category</td>
-                                <td>Scheduled Date</td>
+                                <td>Consulatation</td>
                                 <td>Status</td>
 
                             </tr>
