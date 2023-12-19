@@ -14,7 +14,7 @@ $sql = "SELECT
         FROM appointments
         INNER JOIN patients 
         ON appointments.patient_id = patients.patient_id
-        WHERE stat = 'pending' AND day = '$nextDay' ";
+        WHERE stat = 'pending'";
 
 $result = mysqli_query($con, $sql);
 
