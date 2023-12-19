@@ -1,7 +1,7 @@
 <?php
 include_once("connection.php");
 
-$sql = "SELECT 
+$sql = "SELECT  
         appointments.*, 
         patients.*
         FROM appointments
@@ -22,7 +22,7 @@ if ($result) {
                 'barangay' => $row['barangay'],
                 'municipality' => $row['municipality'],
                 'province' => $row['province'],
-                'type' => $row['cheif_complaint'],
+                'type' => $row['chief_complaint'],
             ];
         }
     } 
