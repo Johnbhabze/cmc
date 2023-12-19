@@ -14,7 +14,7 @@ try {
     function getAppointmentDetails($appointmentId, $pdo)
     {
         $query = "SELECT a.appointment_id, a.queue_no, a.patient_id, a.category, 
-        a.day, a.cheif_complaint, a.stat, a.user_id, p.first_name, p.middle_name, p.last_name, , p.birhdate
+        a.day, a.cheif_complaint, a.stat, a.user_id, p.first_name, p.middle_name, p.last_name, , p.birthdate
   FROM appointments a
   INNER JOIN patients p ON a.patient_id = p.patient_id
   WHERE a.appointment_id = :appointmentId";

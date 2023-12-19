@@ -24,7 +24,7 @@ if ($result) {
         // Loop through each dependent record
         while ($row = mysqli_fetch_assoc($result)) {
             $name = $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'];
-            $dob = new DateTime($row['birhdate']);
+            $dob = new DateTime($row['birthdate']);
             $today = new DateTime();
             $age = $dob->diff($today)->y;
             $sex = $row['sex'];
