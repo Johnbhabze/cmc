@@ -50,7 +50,7 @@ if (!$isValid) {
         'error_message' => $retVal
     );
 } else {
-    $sql = "INSERT INTO patients (first_name, middle_name, last_name, extension_name, birhdate, sex, civil_status, postal_code, religion, nationality, occupation, phone_number, house_no, street, barangay, municaplity, province, spouse_name, spouse_address, fathers_name, mothers_maiden_name, createdAt, updatedAt, deletedAt, user_id)
+    $sql = "INSERT INTO patients (first_name, middle_name, last_name, extension_name, birthdate, sex, civil_status, postal_code, religion, nationality, occupation, phone_number, house_no, street, barangay, municipality, province, spouse_name, spouse_address, fathers_name, mothers_maiden_name, createdAt, updatedAt, deletedAt, user_id)
     VALUES ('$firstName', '$middleName', '$lastName', '$extensionName', '$dob', '$sex', '$civilStatus', '$postalCode', '$religion', '$nationality', '$occupation', '$cellphoneNumber', '$houseLotNo', '$street', '$barangay', '$city', '$province', '$spouseName', '$spouseAddress', '$fathersName', '$motherMaidenName', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '0000-00-00 00:00:00', $user_id)";
 
     $stmt = $con->prepare($sql);

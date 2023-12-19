@@ -4,9 +4,9 @@ include 'connection.php';
 $appointmentId = isset($_GET['appointmentId']) ? $_GET['appointmentId'] : '';
 
 $sqlAppointment = "SELECT CONCAT(patients.first_name, ' ', patients.last_name) AS patient_name,
-                   patients.birhdate, patients.phone_number, appointments.queue_no,
+                   patients.birthdate, patients.phone_number, appointments.queue_no,
                    appointments.category, appointments.day, appointments.day,
-                   appointments.cheif_complaint, appointments.stat
+                   appointments.chief_complaint, appointments.stat
             FROM appointments
             JOIN patients ON appointments.patient_id = patients.patient_id
             WHERE appointments.appointment_id = $appointmentId";
@@ -20,12 +20,12 @@ if ($resultAppointment && $resultAppointment->num_rows > 0) {
   <h1 style="color: var(--primary); font-size: 28px;"><strong>Queue No.:</strong> <?php echo $row['queue_no']; ?></h1>
     <br>
     <p><strong>Name:</strong> <?php echo $row['patient_name']; ?></p>
-    <p><strong>Date of Birth:</strong> <?php echo $row['birhdate']; ?></p>
+    <p><strong>Date of Birth:</strong> <?php echo $row['birthdate']; ?></p>
     <p><strong>Phone Number:</strong> <?php echo $row['phone_number']; ?></p>
     <p><strong>Category:</strong> <?php echo $row['category']; ?></p>
     <p><strong>Appointment Date:</strong> <?php echo $row['day']; ?></p>
-    <p><strong>Chief Complaint:</strong> <?php echo $row['cheif_complaint']; ?></p>
-    <p><strong>Status:</strong> <?php echo $row['stat']; ?></p>
+    <p><strong>Chief Complaint:</strong> <?php echo $row['chief_complaint']; ?></p>
+  
 
 
             <button class="download-button" onclick="saveAsImage()">Save as image</button>

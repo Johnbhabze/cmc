@@ -7,11 +7,10 @@
 }
 
 .history-page-title {
-    margin-top: 20px;
+    padding-left: 3vw;
+    margin: 20px;
     font-size: 36px;
     font-weight: bolder;
-    margin-left: 40px;
- 
 }
 
 .search-container {
