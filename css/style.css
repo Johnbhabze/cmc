@@ -55,7 +55,7 @@ body {
 
 
 .navigation ul li:last-child {
-  margin-top: 400px;
+  margin-top: 420px;
 }
 
 /* .navigation ul li {
@@ -402,7 +402,7 @@ body {
 
 .details .appointmentsContainer {
   position: relative;
-  min-height: 300px;
+  min-height: 200px;
   background: var(--white);
   padding: 20px;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
@@ -661,6 +661,32 @@ header .current-date{
   background: #f2f2f2;
 }
 
+
+
+
+:root{
+  --background_opaque1: rgba(0, 0, 0, 0.25);
+  --background_opaque2: rgba(0, 0, 0, 0.5);
+  --blue: #E5EAEB;
+  --white: #fff;
+  --primary: #A8CF45;
+  --secondary: #DCF5D1;
+  --background: #FBF5EE;
+  --text: #020303;
+  --nav: #e9f0e7;
+  --accent: #28844B;
+}
+ul li:hover{cursor: pointer;}
+
+*{padding:0; margin:0; }
+#Container,#appointmentContent,#headerBodyContainer{display: flex; flex-direction: row; background: var(--background);}
+#navigationContainer{width: 300px;height: 100vh;}
+#bodyContainer{flex:1;}
+#headerBodyContainer{width: 100%; height: 20vh;}
+#contentBodyContainer{width: 68%; height: 80vh;}
+#infoContent{border-left: solid 1px; width: 32%; padding: 10px 20px; }
+#hbc1{ width: 50%; padding: 60px 0 0 50px; font-size: 36px; font-weight: 800; color: var(--accent);}
+#hbc2{ background: var(--nav);}
 
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {
