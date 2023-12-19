@@ -57,14 +57,14 @@ if (!isset($_SESSION["user_email"])) {
                     </a>
                 </li>
 
-                <!-- <li>
+                <li>
                     <a href="availableSlots.php">
                         <span class="icon">
                             <ion-icon name="time-outline"></ion-icon>
                         </span>
                         <span class="title">Available Slots</span>
                     </a>
-                </li> -->
+                </li>
 
                 <li style="background-color: #FBF5EE; font-size: 25px">
                     <a href="myAppointments.php">
@@ -85,7 +85,7 @@ if (!isset($_SESSION["user_email"])) {
                 </li>
 
                 <li>
-                <a onclick="signoutClick(event)" id="logout">
+                    <a onclick="signoutClick(event)" id="logout">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>
@@ -127,14 +127,14 @@ if (!isset($_SESSION["user_email"])) {
                         </div>
                     </div>
 
-                    
+
                     <div class="dropdown-content">
                         <a href="myAppointments.php" class="appointments">
                             <ion-icon class="icon" name="calendar-outline"></ion-icon> My Appointments
                         </a>
-                        <!-- <a href="availableSlots.php" class="slots">
+                        <a href="availableSlots.php" class="slots">
                             <ion-icon class="icon" name="time-outline"></ion-icon> Available Slots
-                        </a> -->
+                        </a>
                         <a href="myHistory.php" class="history">
                             <ion-icon class="icon" name="document-text-outline"></ion-icon> My History
                         </a>
@@ -153,7 +153,7 @@ if (!isset($_SESSION["user_email"])) {
                 <button class="department-legends-btn" onclick="openDepartmentLegendsModal()">Department Legends
                 </button>
             </div>
-            
+
 
 
 
@@ -182,8 +182,8 @@ if (!isset($_SESSION["user_email"])) {
                         <thead>
                             <tr>
                                 <td>Patient Name</td>
-                                <td>Type</td>
-                                <td>Schedule</td>
+                                <td>Category</td>
+                                <td>Consultation Schedule</td>
                                 <td>Status</td>
                                 <td></td>
 
@@ -197,21 +197,22 @@ if (!isset($_SESSION["user_email"])) {
                             $user_id = $_SESSION['user_id'];
 
                             if ($user_id) {
-                                // Fetch appointments data for the specific user
-                                $sql = "SELECT CONCAT(patients.first_name, ' ', patients.last_name) AS patient_name,
-                   appointments.category, appointments.day, appointments.stat, appointments.appointment_id
-            FROM appointments
-            JOIN patients ON appointments.patient_id = patients.patient_id
-            WHERE appointments.user_id = $user_id   ORDER BY appointments.day DESC";
+                                $sql = "SELECT CONCAT(p.first_name, ' ', p.last_name) AS patient_name,
+                                a.category,
+                                CONCAT(a.day, ' ', DATE_FORMAT(a.time, '%l:%i %p')) AS schedule,
+                                a.stat, a.appointment_id
+                            FROM appointments a
+                            JOIN patients p ON a.patient_id = p.patient_id
+                            WHERE a.user_id = $user_id
+                            ORDER BY a.queue_no DESC";
 
                                 $result = $con->query($sql);
-
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>";
                                         echo "<td>" . $row["patient_name"] . "</td>";
                                         echo "<td>" . $row["category"] . "</td>";
-                                        echo "<td>" . $row["day"] . "</td>";
+                                        echo "<td>" . $row["schedule"] . "</td>";
                                         echo "<td>" . $row["stat"] . "</td>";
                                         echo '<td><button data-id="' . $row['appointment_id'] . '" class="view-button"><i class="fa-regular fa-eye"></i> View</button></td>';
                                         echo "</tr>";
@@ -265,6 +266,7 @@ if (!isset($_SESSION["user_email"])) {
                                 <h2>DENTAL</h2><br>
                                 <ul>
                                     <li>PLEASE CALL 09876543212</li> <br>
+
                                     <li><strong>Consultation Schedule</strong></li> <br>
                                     <li>Days: Mon, Wed, Thu, Fri</li>
                                     <li>Opening Time: 8:00 am</li>
@@ -737,9 +739,9 @@ if (!isset($_SESSION["user_email"])) {
 
                                         <tr>
                                             <td>DENTAL</td>
-                                            <td>Please call 09876543212</td>
-                                            <td>No data available</td>
-                                            <td></td>
+                                            <td>Mon,Tue,Fri</td>
+                                            <td> 8:00 am</td>
+                                            <td>5:00 pm</td>
                                         </tr>
 
                                         <tr>
@@ -793,9 +795,9 @@ if (!isset($_SESSION["user_email"])) {
 
                                         <tr>
                                             <td>OPHTHALMOLOGY/EYE CENTER</td>
-                                            <td>Please call 09086339835</td>
-                                            <td>No data available</td>
-                                            <td></td>
+                                            <td>Wed, Thu</td>
+                                            <td>9:00 am</td>
+                                            <td>3:00 pm</td>
                                         </tr>
 
                                         <tr>
@@ -869,7 +871,7 @@ if (!isset($_SESSION["user_email"])) {
                                 <!-- Full Width Chief Complaint Text Area -->
                                 <label for="chiefComplaint">Chief Complaint</label>
                                 <textarea id="chiefComplaint" name="chiefComplaint" rows="4" placeholder="State here the problem or symptoms you are experiencing and you want to be consulted.(Unsay imong gipamati/ ganahan ipakonsulta sa imong lawas)"></textarea>
-                                
+
 
                                 <span id="error-message"></span>
                                 <!-- Previous and Submit Buttons with Icons -->
@@ -900,7 +902,7 @@ if (!isset($_SESSION["user_email"])) {
         <div class="confirmation-modal-content">
 
             <h2>Are you sure you want to submit this form?</h2>
-            <p>You are about to submit the form. Please Note the you won't able to edit the form after submitting it. Do
+            <p>You are about to submit the form. Please Note that you won't able to edit the form after submitting it. Do
                 you want to proceed?</p>
 
             <div class="confirm-button-container">
@@ -922,20 +924,20 @@ if (!isset($_SESSION["user_email"])) {
                 <div class="booking-details">
                     <h1 style="font-weight: bold;" id="queueNumber"></h1>
                     <h2>Queue Number</h2>
-                    <p style="margin-top: 10px; font-size:18px;">Patient Name: <span id="patientName"  style="font-size:18px;"></span></p>
-                    <p style="margin-top: 10px; font-size:18px;">Department: <span id="categ"  style="font-size:18px;"></span></p>
+                    <p style="margin-top: 10px; font-size:18px;">Patient Name: <span id="patientName" style="font-size:18px;"></span></p>
+                    <p style="margin-top: 10px; font-size:18px;">Department: <span id="categ" style="font-size:18px;"></span></p>
                     <p style="margin-top: 10px;font-size:18px;">Appointment Date: <span id="scheduledDate" style="font-size:18px;"></span></p><br>
 
 
                     <p class="note">
-    Please make your consultation experience smoother:
-    <br>
-    <strong>1. Arrival Time:</strong> Aim to arrive 15 minutes before your scheduled consultation.<br>
-    <strong>2. Queue Number:</strong> Remember to present your queue number. <br>
-    <strong>3. Safety First:</strong> Wear a face mask for everyone's safety.<br>
-    <strong>4. Social Distancing:</strong> Observe a distance of at least 1 meter.<br>
-</p>
-            </div>
+                        Please make your consultation experience smoother:
+                        <br>
+                        <strong>1. Arrival Time:</strong> Aim to arrive 15 minutes before your scheduled consultation.<br>
+                        <strong>2. Queue Number:</strong> Remember to present your queue number. <br>
+                        <strong>3. Safety First:</strong> Wear a face mask for everyone's safety.<br>
+                        <strong>4. Social Distancing:</strong> Observe a distance of at least 1 meter.<br>
+                    </p>
+                </div>
             </div>
 
             <div class="success-button-container">
@@ -1056,6 +1058,8 @@ if (!isset($_SESSION["user_email"])) {
                             <label for="city">City</label>
                             <input type="text" id="city" name="city" placeholder="City" required>
 
+
+
                             <label for="barangay">Barangay</label>
                             <input type="text" id="barangay" name="barangay" placeholder="Barangay" required>
 
@@ -1101,6 +1105,7 @@ if (!isset($_SESSION["user_email"])) {
 
     <!-- =========== Scripts =========  -->
     <script src="../../js/main.js"></script>
+    <script src="../../js/authentication.js"></script>
     <script src="../../js/modal.js"></script>
     <script src="../../js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1133,7 +1138,12 @@ if (!isset($_SESSION["user_email"])) {
         }
     </script>
 
-    <script src="../../js/authentication.js"></script>
+    <script src="../../js/autosuggest.js"></script>
+
+
+
+
+
 
 </body>
 
